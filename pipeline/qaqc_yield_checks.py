@@ -345,8 +345,10 @@ def check_repeat_runs(cc: str) -> pd.DataFrame:
 
 def plot_cv_maps(cc: str, summary: pd.DataFrame) -> None:
     boundaries = gpd.read_file(get_country(cc)["boundary_path"])
-    out_dir = FIG_DIR / cc.lower()
-    out_dir.mkdir(parents=True, exist_ok=True)
+    cv_dir = FIG_DIR / cc.lower() / "yield_qaqc" / "cv"
+    cv_dir.mkdir(parents=True, exist_ok=True)
+    cv_z_dir = FIG_DIR / cc.lower() / "yield_qaqc" / "cv_relative_outlier"
+    cv_z_dir.mkdir(parents=True, exist_ok=True)
 
     crops = sorted(summary["crop"].unique())
     for crop in crops:
@@ -373,10 +375,10 @@ def plot_cv_maps(cc: str, summary: pd.DataFrame) -> None:
                      f"{n_flag}/{n_eligible} eligible districts")
         ax.axis("off")
 
-        out_path = out_dir / f"qaqc_cv_map_{cc.lower()}_{crop}.png"
+        out_path = cv_dir / f"qaqc_cv_map_{cc.lower()}_{crop}.png"
         fig.savefig(out_path, dpi=150, bbox_inches="tight")
         plt.close(fig)
-        print(f"  Wrote {cc.lower()}/{out_path.name}")
+        print(f"  Wrote {out_path.relative_to(FIG_DIR)}")
 
         # --- relative (z-score) CV outlier map ---
         if geo["cv_zscore"].notna().sum() == 0:
@@ -401,10 +403,10 @@ def plot_cv_maps(cc: str, summary: pd.DataFrame) -> None:
                      f"{n_out}/{n_eligible} eligible districts")
         ax.axis("off")
 
-        out_path = out_dir / f"qaqc_cv_zscore_map_{cc.lower()}_{crop}.png"
+        out_path = cv_z_dir / f"qaqc_cv_zscore_map_{cc.lower()}_{crop}.png"
         fig.savefig(out_path, dpi=150, bbox_inches="tight")
         plt.close(fig)
-        print(f"  Wrote {cc.lower()}/{out_path.name}")
+        print(f"  Wrote {out_path.relative_to(FIG_DIR)}")
 
 
 # ---------------------------------------------------------------------------
@@ -415,7 +417,7 @@ def plot_anomaly_maps(cc: str, district: pd.DataFrame) -> None:
     if district.empty or district["n_anomalous_years"].sum() == 0:
         return
     boundaries = gpd.read_file(get_country(cc)["boundary_path"])
-    out_dir = FIG_DIR / cc.lower()
+    out_dir = FIG_DIR / cc.lower() / "yield_qaqc" / "single_year_anomaly"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     for crop in sorted(district["crop"].unique()):
@@ -440,7 +442,7 @@ def plot_anomaly_maps(cc: str, district: pd.DataFrame) -> None:
         out_path = out_dir / f"qaqc_anomaly_map_{cc.lower()}_{crop}.png"
         fig.savefig(out_path, dpi=150, bbox_inches="tight")
         plt.close(fig)
-        print(f"  Wrote {cc.lower()}/{out_path.name}")
+        print(f"  Wrote {out_path.relative_to(FIG_DIR)}")
 
 
 # ---------------------------------------------------------------------------
@@ -451,7 +453,7 @@ def plot_repeat_maps(cc: str, runs: pd.DataFrame, all_series: pd.DataFrame) -> N
     if runs.empty:
         return
     boundaries = gpd.read_file(get_country(cc)["boundary_path"])
-    out_dir = FIG_DIR / cc.lower()
+    out_dir = FIG_DIR / cc.lower() / "yield_qaqc" / "exact_repeat_runs"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     max_runs = runs.groupby(["stable_id", "crop"])["run_length"].max().reset_index()
@@ -484,7 +486,7 @@ def plot_repeat_maps(cc: str, runs: pd.DataFrame, all_series: pd.DataFrame) -> N
         out_path = out_dir / f"qaqc_repeat_map_{cc.lower()}_{crop}.png"
         fig.savefig(out_path, dpi=150, bbox_inches="tight")
         plt.close(fig)
-        print(f"  Wrote {cc.lower()}/{out_path.name}")
+        print(f"  Wrote {out_path.relative_to(FIG_DIR)}")
 
 
 # ---------------------------------------------------------------------------

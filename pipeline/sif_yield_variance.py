@@ -207,7 +207,7 @@ def print_summary(cc: str, corr: pd.DataFrame) -> None:
 
 def plot_corr_maps(cc: str, corr: pd.DataFrame) -> None:
     boundaries = gpd.read_file(get_country(cc)["boundary_path"])
-    out_dir = FIG_DIR / cc.lower()
+    out_dir = FIG_DIR / cc.lower() / "sif_yield"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     for (crop, scenario), g in corr.groupby(["crop", "scenario"]):
@@ -236,7 +236,7 @@ def plot_corr_maps(cc: str, corr: pd.DataFrame) -> None:
         out_path = out_dir / f"sif_yield_corr_map_{cc.lower()}_{crop}_{scenario}.png"
         fig.savefig(out_path, dpi=150, bbox_inches="tight")
         plt.close(fig)
-        print(f"  Wrote {cc.lower()}/{out_path.name}")
+        print(f"  Wrote {out_path.relative_to(FIG_DIR)}")
 
 
 # ---------------------------------------------------------------------------

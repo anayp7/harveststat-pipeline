@@ -143,7 +143,7 @@ def cross_sectional_anomaly(cc: str, crops: list[str] | None = None) -> tuple[pd
 
 
 def plot_cross_sectional(cc: str, district: pd.DataFrame, crop_tag: str) -> Path:
-    out_dir = FIG_DIR / cc.lower()
+    out_dir = FIG_DIR / cc.lower() / "yield_qaqc" / "cross_sectional"
     out_dir.mkdir(parents=True, exist_ok=True)
 
     fig, ax = plt.subplots(figsize=(11, 5))
@@ -164,6 +164,7 @@ def plot_cross_sectional(cc: str, district: pd.DataFrame, crop_tag: str) -> Path
     fig.savefig(out_path, dpi=150, bbox_inches="tight")
     plt.close(fig)
     return out_path
+
 
 
 def run(cc: str, crops: list[str] | None) -> None:
@@ -193,7 +194,7 @@ def run(cc: str, crops: list[str] | None) -> None:
               f"districts ({int(r['n_districts_high'])} high, {int(r['n_districts_low'])} low)")
 
     out_path = plot_cross_sectional(cc, district, crop_tag)
-    print(f"  Wrote {cc.lower()}/{out_path.name}")
+    print(f"  Wrote {out_path.relative_to(FIG_DIR)}")
 
 
 def main() -> None:
