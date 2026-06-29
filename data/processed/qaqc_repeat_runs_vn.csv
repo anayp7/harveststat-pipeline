@@ -1,0 +1,12 @@
+stable_id,crop,start_year,end_year,run_length,yield_mt_ha,production_and_area_also_identical,flag_repeat
+VN.ADM1.00037,soybean,1982,1986,5,1.0,False,True
+VN.ADM1.00029,soybean,1985,1988,4,0.5,False,True
+VN.ADM1.00009,soybean_unspecified,2012,2015,4,2.0,False,True
+VN.ADM1.00034,soybean,1982,1985,4,1.0,False,True
+VN.ADM1.00017,maize_corn,1999,2001,3,3.0,False,False
+VN.ADM1.00017,soybean,1984,1986,3,1.0,True,False
+VN.ADM1.00018,maize_corn,1986,1988,3,1.3333333333333333,False,False
+VN.ADM1.00028,soybean,1983,1985,3,0.6428571428571429,True,False
+VN.ADM1.00025,maize_corn,1980,1982,3,1.0,False,False
+VN.ADM1.00031,soybean_unspecified,2011,2013,3,1.25,True,False
+VN.ADM1.00037,soybean,1988,1990,3,1.0,True,False

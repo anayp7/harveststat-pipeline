@@ -1,0 +1,9 @@
+admin_1,year,season,crop,reported,calculated,pct_diff
+Faridpur,1990,Aman,rice_paddy,0.0,4.636378135582533e-06,100.0
+Faridpur,1985,Aman,rice_paddy,0.0,4.597986541693392e-06,100.0
+Chattogram,2023,Annual,wheat_grain,0.0,5.378378378378378,100.0
+Barisal,2012,Kharif,cooking_banana_unspecified,0.01,0.006340149,57.72499983833188
+Rajshahi,2010,Rabi,radish,89817.58,67945.0,32.191596143939954
+Patuakhali,2008,Rabi,carrots,1.4,2.0,30.000000000000004
+Rangamati,2008,Kharif,pointed_gourd,0.96,1.1111111111111112,13.600000000000007
+Rangamati,2010,Kharif,chili_pepper_unspecified,0.01,0.009000164,11.109086456646795

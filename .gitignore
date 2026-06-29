@@ -1,0 +1,101 @@
+# =============================================================
+# HarvestStat Pipeline — .gitignore
+#
+# What IS committed:
+#   pipeline/        all pipeline scripts + config
+#   code/            India analysis notebooks
+#   data/processed/  computed CSVs (not large binary files)
+#   figures/         output maps (PNGs)
+#   results/         model output parquets
+#   model_cache/     parquet cache
+#   *.py             root-level scripts
+#
+# What is NOT committed and why:
+#   source data files are too large (2.5 GB+ each) or contain
+#   proprietary FEWS yield data. Run stablebound to regenerate
+#   the boundary outputs; download GOSIF, CROPGRIDs, and India
+#   NetCDFs from their original sources (see PROGRESS_LOG.md).
+# =============================================================
+
+# ------------------------------------------------------------
+# Large source data archives
+# ------------------------------------------------------------
+Monthly.tar
+CROPGRIDSv1.08_NC_maps.zip
+stablebound_TH_BD_VN_starter.zip
+
+# ------------------------------------------------------------
+# stablebound_starter/ — excluded because it contains
+# proprietary FEWS yield CSVs and large per-year boundary
+# GeoJSONs (~800 MB total). Run stablebound locally to
+# regenerate the _out/stable/ outputs the pipeline reads.
+# The bug-fixed scripts (prepare_stats.py, build_stable_crops.py)
+# are documented in pipeline/PROGRESS_LOG.md Section 1.
+# ------------------------------------------------------------
+stablebound_starter/
+
+# ------------------------------------------------------------
+# CROPGRIDs NetCDF files (~63 MB each, many crops)
+# Download from figshare: CROPGRIDSv1.08_NC_maps.zip
+# ------------------------------------------------------------
+data/raw/cropgrids/
+
+# ------------------------------------------------------------
+# Large NetCDF files — India climate/SIF source data
+# and processed GOSIF country extracts
+# ------------------------------------------------------------
+data/raw/*.nc
+data/processed/*.nc
+
+# ------------------------------------------------------------
+# Binary spatial files regenerated during processing
+# ------------------------------------------------------------
+data/processed/*.gpkg
+
+# ------------------------------------------------------------
+# Python cache — never commit these
+# ------------------------------------------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# ------------------------------------------------------------
+# Virtual environments
+# ------------------------------------------------------------
+venv/
+.venv/
+env/
+stablebound_env/
+
+# ------------------------------------------------------------
+# Claude Code session files — not project code
+# ------------------------------------------------------------
+.claude/
+MEMORY.md
+memory_hook.py
+
+# ------------------------------------------------------------
+# OS noise
+# ------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ------------------------------------------------------------
+# Jupyter checkpoints
+# ------------------------------------------------------------
+.ipynb_checkpoints/
+
+# ------------------------------------------------------------
+# Editor temp files
+# ------------------------------------------------------------
+*.swp
+*.swo
+*~

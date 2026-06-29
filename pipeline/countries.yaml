@@ -1,0 +1,112 @@
+# Per-country pipeline configuration.
+#
+# To add a new country, copy one block, change the two-letter code,
+# and fill in the four required sections:
+#
+#   name            - human-readable country name (used in plot titles)
+#   bbox            - [lon_min, lat_min, lon_max, lat_max] for GOSIF clip
+#                     add ~1 degree buffer beyond the admin boundary extent
+#   stablebound_dir - path to the country folder inside your stablebound
+#                     checkout, relative to the project root
+#   raw_csv         - path to the raw FEWS CSV (the one you give to stablebound),
+#                     relative to the project root
+#   base_year       - stablebound lineage base year (the coarsest partition,
+#                     valid for the entire analysis window). Confirmed by
+#                     matching n_stable_groups_at_base in stats_aggregated.csv.
+#   crop_map        - FEWS crop slug (variable prefix in stats_aggregated.csv)
+#                     -> CROPGRIDs filename stem (file: data/raw/cropgrids/CROPGRIDSv1.08_<stem>.nc)
+#                     Multiple FEWS slugs may map to the same CROPGRIDs stem
+#                     (e.g. "soybean" and "soybean_unspecified" both -> "soybean").
+#   admin_name_aliases - raw CSV admin names that differ from the lineage spellings
+#                     that stablebound used when building name_history.csv.
+#                     Key: name as it appears in the raw FEWS CSV.
+#                     Value: name as it appears in name_history.csv.
+#                     Required when official renamings post-date the lineage build
+#                     (e.g. Bangladesh's 2018 district renames).
+#                     Omit entirely if no mismatches exist.
+
+TH:
+  name: Thailand
+  bbox: [96.0, 4.0, 107.0, 22.0]
+  stablebound_dir: stablebound_starter/stablebound_TH_BD_VN_starter/thailand
+  raw_csv: stablebound_starter/stablebound_TH_BD_VN_starter/thailand/th_standard_apr2926_forjonah.csv
+  base_year: 1978
+  crop_map:
+    rice: rice
+    soybeans: soybean
+  admin_name_aliases:
+    Bangkok: Bangkok Metropolis
+    Phra Nakhon Si Ayutthaya: Ayutthaya
+    Nong Bua Lamphu: Nong Bua Lam Phu
+    Phang Nga: Phangnga
+
+BD:
+  name: Bangladesh
+  bbox: [87.0, 19.0, 94.0, 28.0]
+  stablebound_dir: stablebound_starter/stablebound_TH_BD_VN_starter/bangladesh
+  raw_csv: stablebound_starter/stablebound_TH_BD_VN_starter/bangladesh/bd_standard_apr2926_forjonah.csv
+  base_year: 1983
+  crop_map:
+    rice_paddy: rice
+    wheat_grain: wheat
+    maize_corn: maize
+    soybean_unspecified: soybean
+    groundnuts_in_shell: groundnut
+  admin_name_aliases:
+    # post-2018 official renamings — raw CSV uses new names, lineage uses old
+    Barishal: Barisal
+    Bogura: Bogra
+    Chattogram: Chittagong
+    Cumilla: Comilla
+    Jashore: Jessore
+    Bakergonj: Barisal
+    Chapai Nawabganj: Nawabganj
+    Chapai Nawabgonj: Nawabganj
+    "Chittagong H. T": Chittagong Hill Tracts
+    "Chittagong H. T.": Chittagong Hill Tracts
+    "Chittagong H.T.": Chittagong Hill Tracts
+    "Chittagonj H.T": Chittagong Hill Tracts
+    Barissal: Barisal
+    Chittagonj: Chittagong
+    "Cox' Bazar": Cox's Bazar
+    Gaibandha: Gaibanda
+    Gopalgonj: Gopalganj
+    Hobigonj: Habiganj
+    Jhalakathi: Jhalakhati
+    Jhallokati: Jhalakhati
+    Khagrachari: Khagrachhari
+    Kishoregonj: Kishoreganj
+    Kustia: Kushtia
+    Laksmipur: Lakshmipur
+    Manikgonj: Manikganj
+    Maulovibazar: Maulvibazar
+    Moulvibazar: Maulvibazar
+    Munsigonj: Munshiganj
+    Mymensinghh: Mymensingh
+    Netrokona: Netrakona
+    Panchagar: Panchagarh
+    Sirajgonj: Sirajganj
+    Sunamgonj: Sunamganj
+
+VN:
+  name: Vietnam
+  bbox: [101.0, 7.0, 111.0, 25.0]
+  stablebound_dir: stablebound_starter/stablebound_TH_BD_VN_starter/vietnam
+  raw_csv: stablebound_starter/stablebound_TH_BD_VN_starter/vietnam/vn_standard_apr2926_forjonah.csv
+  base_year: 1980
+  crop_map:
+    rice_paddy: rice
+    maize_corn: maize
+    cassava: cassava
+    soybean: soybean
+    soybean_unspecified: soybean
+    sugarcane: sugarcane
+    sugarcane_for_sugar: sugarcane
+    groundnuts_in_shell: groundnut
+  admin_name_aliases:
+    Can Tho City: Can Tho
+    Da Nang City: Da Nang
+    Ha Noi: Ha Noi City
+    Hai Phong: Hai Phong City
+    Dac Khu Vung Tau Con Dao: Vung Tau-Con Dao
+    Thua Thien: Thua Thien Hue

@@ -1,0 +1,527 @@
+admin_1,year,season,crop,reported,calculated,pct_diff
+Lai Chau,1979,Calendar Year,maize_corn,0.962,0.06666666667,1342.99999992785
+Lai Chau,1980,Calendar Year,maize_corn,1.046,0.07725321888,1253.9888889611016
+Dac Khu Vung Tau Con Dao,1983,Calendar Year,sugarcane,27.0,2.0,1250.0
+Lai Chau,1978,Calendar Year,maize_corn,1.035,0.07766990291,1232.5625000449738
+Ben Tre,1978,Calendar Year,cassava,7.51,0.6,1151.6666666666667
+An Giang,1976,Calendar Year,cassava,10.0,0.8571428571,1066.6666667250001
+Binh Tri Thien,1984,Calendar Year,soybean,0.5,0.04285714286,1066.6666665888888
+Ca Mau,1975,Southern Summer Rice,rice_paddy,3.0,0.2706766917,1008.3333334534027
+Lai Chau,1977,Calendar Year,maize_corn,1.081,0.1020408163,959.3800002754389
+Lang Son,1998,Northern Winter Rice,rice_paddy,2.94,0.2941176471,899.5999998600562
+Quang Binh,1985,Northern Spring Rice,rice_paddy,6.3,0.6325757576,895.9281436744076
+Dac Khu Vung Tau Con Dao,1989,Calendar Year,sugarcane,21.5,2.214285714,870.9677420607701
+Dong Thap,1981,Calendar Year,cassava,6.33,0.6666666667,849.4999999525251
+Lai Chau,1976,Calendar Year,maize_corn,1.124,0.1189189189,845.1818183321882
+Tay Ninh,1983,Calendar Year,sweet_potatoes,3.08,0.3333333333,824.0000000924001
+Ha Son Binh,1979,Calendar Year,peanut,0.836,0.1111111111,652.4000000752399
+Ha Bac,1990,Calendar Year,sugarcane,30.14,5.627906977,435.54545452111154
+Ha Bac,1988,Calendar Year,sugarcane,30.48,7.085106383,330.1981981969063
+Ha Bac,1987,Calendar Year,sugarcane,29.86,7.208333333,314.2427745856297
+Lai Chau,1980,Calendar Year,sugarcane,21.36,5.333333333,300.5000000250313
+Ha Bac,1989,Calendar Year,sugarcane,30.32,7.837209302,286.87240357690274
+Hai Hung,1980,Calendar Year,soybean,0.583,0.1538461538,278.950000113685
+Lai Chau,1979,Calendar Year,soybean,0.502,0.1363636364,268.13333323516446
+Son La,1978,Calendar Year,sugarcane,33.0,9.333333333,253.5714285840561
+Dac Khu Vung Tau Con Dao,1985,Calendar Year,cassava,7.06,2.0,252.99999999999997
+Hoang Lien Son,1976,Calendar Year,soybean,0.489,0.15,225.99999999999997
+Hoang Lien Son,1976,Calendar Year,sugarcane,27.05,8.8,207.38636363636363
+Lai Chau,1977,Calendar Year,soybean,0.575,0.1904761905,201.87499996226558
+Ha Noi City,1976,Northern Spring Rice,rice_paddy,3.17,1.064182195,197.88132284998434
+Minh Hai,1976,Calendar Year,cassava,7.83,2.666666667,193.62499996329691
+Ha Noi City,1977,Northern Spring Rice,rice_paddy,2.74,0.9410526316,191.163310955455
+Ha Noi City,1975,Northern Spring Rice,rice_paddy,2.52,0.8670756646,190.6320754789639
+Ca Mau,1979,Calendar Year,maize_corn,1.236,0.4444444444,178.10000002780998
+Ha Noi City,1976,Northern Winter Rice,rice_paddy,2.8,1.014084507,176.11111112261574
+Ha Noi City,1977,Northern Winter Rice,rice_paddy,2.64,0.9607843137,174.7755102113716
+Ha Noi City,1975,Northern Winter Rice,rice_paddy,2.9,1.087751371,166.6050420450355
+Lai Chau,1980,Calendar Year,soybean,0.405,0.1578947368,156.50000006840003
+Tien Giang,1979,Calendar Year,sugarcane,167.064,65.9375,153.36720379146917
+Hai Hung,1978,Calendar Year,soybean,0.305,0.125,144.0
+Son La,1979,Calendar Year,sugarcane,32.885,13.66666667,140.62195116082393
+Hoang Lien Son,1978,Calendar Year,sugarcane,29.1,12.16666667,139.17808212625263
+Ha Tuyen,1982,Calendar Year,sugarcane,36.55,15.46153846,136.39303484939234
+Hoang Lien Son,1977,Calendar Year,sugarcane,29.3,12.4,136.29032258064515
+Hoang Lien Son,1977,Calendar Year,soybean,0.41,0.1739130435,135.74999997053123
+Hoang Lien Son,1978,Calendar Year,soybean,0.4,0.1764705882,126.66666671200002
+Hoang Lien Son,1980,Calendar Year,sugarcane,33.59,15.0,123.93333333333337
+Lai Chau,1978,Calendar Year,soybean,0.497,0.2222222222,123.65000002236499
+Son La,1977,Calendar Year,sugarcane,30.09,13.5,122.88888888888889
+Kien Giang,1982,Calendar Year,maize_corn,1.35,0.6666666667,102.49999998987502
+Ben Tre,1978,Calendar Year,sweet_potatoes,8.3,4.133333333,100.8064516290973
+Long An,1986,Calendar Year,maize_corn,0.99,0.5,98.0
+Dong Thap,1989,Calendar Year,cassava,5.91,3.0,97.00000000000001
+Dac Khu Vung Tau Con Dao,1990,Calendar Year,sugarcane,21.5,311.0,93.08681672025723
+Dac Khu Vung Tau Con Dao,1982,Calendar Year,maize_corn,1.93,1.0,93.0
+Hau Giang,1980,Calendar Year,sweet_potatoes,10.87,147.6666667,92.63882618676324
+Quang Ninh,1978,Calendar Year,maize_corn,0.593,7.296296296,91.87258883215726
+Dong Thap,1982,Calendar Year,soybean,1.43,16.0,91.0625
+Kien Giang,1975,Southern Summer Rice,rice_paddy,3.0,33.25,90.97744360902256
+Binh Tri Thien,1978,Calendar Year,sugarcane,1.031,11.33333333,90.90294117379499
+Cao Bang,1976,Calendar Year,peanut,0.551,5.5,89.98181818181817
+Quang Ninh,1980,Calendar Year,maize_corn,0.722,7.12,89.85955056179775
+Kien Giang,1979,Calendar Year,peanut,1.297,12.0,89.19166666666666
+Quang Ninh,1977,Calendar Year,maize_corn,0.661,6.066666667,89.10439560499427
+Quang Ninh,1979,Calendar Year,maize_corn,0.625,5.434782609,88.500000000644
+Hai Hung,1979,Calendar Year,soybean,0.314,0.1666666667,88.39999996232001
+Quang Ninh,1976,Calendar Year,maize_corn,0.744,6.033333333,87.66850828661153
+Dong Thap,1990,Calendar Year,cassava,5.63,3.0,87.66666666666666
+Vinh Phuc,1979,Calendar Year,peanut,0.761,6.0,87.31666666666666
+Quang Ninh,1977,Calendar Year,sugarcane,20.12,154.0,86.93506493506493
+Lang Son,1987,Calendar Year,sugarcane,25.33,13.57142857,86.64210528280442
+Gia Lai-Kon Tum,1987,Calendar Year,sugarcane,24.32,13.2,84.24242424242425
+Quang Ninh,1978,Calendar Year,sugarcane,27.134,152.0,82.14868421052631
+Hai Phong City,1990,Calendar Year,sugarcane,18.2,10.0,82.0
+Hau Giang,1979,Calendar Year,sweet_potatoes,11.11,60.9047619,81.75840500248307
+Gia Lai-Kon Tum,1978,Calendar Year,sugarcane,47.8,26.5,80.37735849056602
+Hai Hung,1979,Calendar Year,peanut,0.97,0.5384615385,80.14285712998979
+Quang Ninh,1980,Calendar Year,sugarcane,23.44,113.0,79.2566371681416
+Hai Phong City,1981,Calendar Year,sugarcane,25.0,14.0,78.57142857142857
+Son La,1979,Calendar Year,soybean,0.481,2.2,78.13636363636365
+Quang Ninh,1979,Calendar Year,sugarcane,26.256,118.0,77.74915254237288
+Gia Lai-Kon Tum,1984,Calendar Year,soybean,0.71,0.4,77.49999999999999
+Nghe Tinh,1976,Calendar Year,soybean,0.368,0.2083333333,76.64000002826239
+Long An,1989,Calendar Year,sweet_potatoes,3.48,2.0,74.0
+Kien Giang,1981,Calendar Year,peanut,0.87,0.5,74.0
+Thanh Hoa,1979,Calendar Year,soybean,0.29,0.1666666667,73.99999996519999
+Kien Giang,1979,Calendar Year,sugarcane,47.447,27.27659574,73.94765993624686
+Hoang Lien Son,1978,Calendar Year,maize_corn,1.029,0.5916230366,73.92831859853915
+Hai Phong City,1989,Calendar Year,soybean,1.73,1.0,73.0
+Quang Ngai,1990,Calendar Year,soybean,1.7,1.0,70.0
+Son La,1978,Calendar Year,soybean,0.458,1.5,69.46666666666667
+Ha Nam Ninh,1977,Calendar Year,soybean,0.313,1.0,68.7
+Hai Phong City,1980,Calendar Year,peanut,0.84,0.5,68.0
+Son La,1976,Calendar Year,soybean,0.4,1.25,68.0
+Ha Nam Ninh,1990,Calendar Year,soybean,1.04,0.6216216216,67.30434783190624
+Thai Binh,1989,Calendar Year,cassava,10.0,6.0,66.66666666666666
+Thai Binh,1982,Calendar Year,cassava,15.0,9.0,66.66666666666666
+Long An,1980,Calendar Year,maize_corn,1.66,1.0,65.99999999999999
+Hai Phong City,1981,Calendar Year,maize_corn,1.73,5.0,65.4
+Tay Ninh,1987,Calendar Year,maize_corn,0.95,2.714285714,64.9999999963158
+Lam Dong,1990,Calendar Year,sugarcane,42.24,25.65,64.67836257309943
+Hai Phong City,1983,Calendar Year,peanut,0.82,0.5,63.99999999999999
+Dak Lak,1977,Calendar Year,cassava,8.18,22.54054054,63.709832133422296
+Quang Ninh,1976,Calendar Year,sugarcane,31.06,84.5,63.242603550295854
+Gia Lai-Kon Tum,1983,Calendar Year,sugarcane,42.23,25.91666667,62.945337599621155
+Dak Lak,1980,Calendar Year,cassava,8.07,21.64444444,62.715605741830714
+Son La,1976,Calendar Year,sugarcane,34.04,21.0,62.095238095238095
+Nghe Tinh,1980,Calendar Year,sweet_potatoes,4.88,12.68330733,61.52423123535555
+Dak Lak,1979,Calendar Year,cassava,7.26,18.55,60.86253369272237
+Son La,1977,Calendar Year,soybean,0.362,0.9166666667,60.50909091052694
+Tay Ninh,1979,Calendar Year,maize_corn,1.877,1.171052632,60.283146009785824
+Tien Giang,1982,Calendar Year,peanut,1.6,4.0,60.0
+Dak Lak,1977,Calendar Year,sugarcane,30.4,19.0,60.0
+Hoang Lien Son,1979,Calendar Year,sugarcane,27.83,17.4,59.94252873563218
+Ben Tre,1976,Calendar Year,peanut,0.799,0.5,59.80000000000001
+Lai Chau,1976,Calendar Year,soybean,0.532,0.3333333333,59.60000001596002
+Dak Lak,1977,Calendar Year,soybean,0.406,1.0,59.4
+Ho Chi Minh City,1976,Calendar Year,maize_corn,0.988,2.428571429,59.31764706600276
+Tay Ninh,1981,Calendar Year,soybean,0.795,0.5,59.00000000000001
+Hai Hung,1989,Calendar Year,maize_corn,2.38,1.504098361,58.23433238885099
+Thai Binh,1990,Calendar Year,soybean,0.84,2.0,58.00000000000001
+Hai Phong City,1985,Calendar Year,sugarcane,41.38,98.0,57.77551020408163
+Ben Tre,1990,Calendar Year,maize_corn,1.995,4.714285714,57.68181817925344
+Hoang Lien Son,1977,Calendar Year,maize_corn,1.071,0.6823529412,56.95689654631182
+Hai Phong City,1977,Calendar Year,maize_corn,1.568,1.0,56.800000000000004
+Quang Ninh,1977,Calendar Year,soybean,0.229,0.5294117647,56.74444444396383
+Thai Binh,1984,Calendar Year,cassava,15.67,10.0,56.699999999999996
+Dong Thap,1987,Calendar Year,cassava,7.83,5.0,56.60000000000001
+Cao Bang,1982,Calendar Year,cassava,3.77,8.666666667,56.50000000167308
+Binh Duong,1985,Calendar Year,soybean,0.78,0.5,56.00000000000001
+Tay Ninh,1988,Calendar Year,sweet_potatoes,4.67,3.0,55.666666666666664
+Vinh Phuc,1990,Calendar Year,sugarcane,40.4,91.125,55.66529492455419
+Lai Chau,1980,Calendar Year,peanut,0.621,0.4,55.249999999999986
+Dak Lak,1978,Calendar Year,cassava,9.52,21.23728814,55.17318436684355
+Ben Tre,1983,Calendar Year,soybean,1.51,3.333333333,54.69999999547001
+Son La,1980,Calendar Year,soybean,0.52,1.142857143,54.5000000056875
+Hoang Lien Son,1980,Calendar Year,soybean,0.44,0.2857142857,54.00000000769999
+Thai Binh,1979,Calendar Year,soybean,0.385,0.25,54.0
+Vinh Phuc,1985,Calendar Year,soybean,0.461,1.0,53.89999999999999
+Quang Ninh,1980,Calendar Year,soybean,0.35,0.75,53.333333333333336
+Hai Phong City,1978,Calendar Year,peanut,0.763,0.5,52.6
+Thai Binh,1978,Calendar Year,soybean,0.379,0.25,51.6
+Tien Giang,1984,Calendar Year,peanut,0.49,1.0,51.0
+Ho Chi Minh City,1990,Calendar Year,maize_corn,1.78,1.181818182,50.61538459221302
+Ha Bac,1978,Calendar Year,maize_corn,0.98,1.963855422,50.09815951716226
+Tien Giang,1986,Calendar Year,peanut,1.5,1.0,50.0
+Long An,1983,Calendar Year,maize_corn,1.0,2.0,50.0
+Phu Khanh,1984,Calendar Year,soybean,0.3,0.2,49.999999999999986
+Ben Tre,1980,Calendar Year,sweet_potatoes,4.85,3.25,49.23076923076922
+Kien Giang,1984,Calendar Year,maize_corn,1.49,1.0,49.0
+Long An,1981,Calendar Year,maize_corn,1.49,1.0,49.0
+Hai Phong City,1984,Calendar Year,soybean,1.49,1.0,49.0
+Hai Phong City,1982,Calendar Year,maize_corn,1.49,1.0,49.0
+Quang Ninh,1981,Calendar Year,sugarcane,20.8,14.0,48.57142857142858
+Phu Khanh,1983,Calendar Year,soybean,0.36,0.7,48.57142857142857
+Cuu Long,1979,Calendar Year,soybean,0.74,0.5,48.0
+Son La,1978,Calendar Year,maize_corn,0.757,1.426666667,46.93925234884597
+Ha Tuyen,1979,Calendar Year,peanut,0.489,0.3333333333,46.70000001467001
+Tien Giang,1980,Calendar Year,sweet_potatoes,6.24,11.69230769,46.631578936835176
+Hoang Lien Son,1986,Calendar Year,peanut,0.73,1.357142857,46.21052631012742
+Cao Bang,1978,Calendar Year,cassava,8.91,16.5,46.0
+Gia Lai-Kon Tum,1990,Calendar Year,sugarcane,25.4,17.40740741,45.91489359528925
+Son La,1977,Calendar Year,maize_corn,0.747,1.367741935,45.38443394294261
+Quang Ninh,1978,Calendar Year,soybean,0.255,0.4666666667,45.357142861045915
+Lai Chau,1976,Calendar Year,sugarcane,26.9,49.0,45.102040816326536
+Quang Ninh,1976,Calendar Year,soybean,0.265,0.4761904762,44.350000001112996
+Hai Phong City,1979,Calendar Year,maize_corn,1.117,2.0,44.15
+Kien Giang,1985,Calendar Year,maize_corn,1.44,1.0,43.99999999999999
+Hai Phong City,1989,Calendar Year,peanut,1.44,1.0,43.99999999999999
+Ha Son Binh,1984,Northern Winter Rice,rice_paddy,2.96,2.058230683,43.81284004986335
+Son La,1979,Calendar Year,maize_corn,0.781,1.37414966,43.16485149077576
+Gia Lai-Kon Tum,1981,Calendar Year,sugarcane,31.623,22.14285714,42.81354840552433
+Hai Phong City,1983,Calendar Year,soybean,1.16,2.0,42.00000000000001
+Hai Phong City,1986,Calendar Year,soybean,1.42,1.0,41.99999999999999
+Vinh Phuc,1980,Calendar Year,maize_corn,1.04,1.771428571,41.2903225664412
+Hai Phong City,1976,Calendar Year,maize_corn,1.41,1.0,40.99999999999999
+An Giang,1980,Calendar Year,cassava,9.24,6.565217391,40.74172186082909
+Ca Mau,1979,Calendar Year,peanut,0.6,1.0,40.0
+Dac Khu Vung Tau Con Dao,1982,Calendar Year,peanut,1.4,1.0,39.99999999999999
+Kien Giang,1976,Calendar Year,peanut,1.208,2.0,39.6
+Thai Binh,1976,Calendar Year,sugarcane,44.9,74.33333333,39.59641255334513
+Long An,1987,Calendar Year,peanut,1.18,0.8470588235,39.305555560392555
+Tien Giang,1981,Calendar Year,peanut,1.22,2.0,39.0
+Dac Khu Vung Tau Con Dao,1980,Calendar Year,maize_corn,1.39,1.0,38.99999999999999
+Thai Binh,1977,Calendar Year,soybean,0.463,0.3333333333,38.900000013890015
+Dac Khu Vung Tau Con Dao,1985,Calendar Year,sugarcane,28.8,47.0,38.72340425531915
+Dak Lak,1978,Calendar Year,soybean,0.613,1.0,38.7
+Ha Bac,1979,Calendar Year,maize_corn,0.971,1.579710145,38.533027525755365
+Vinh Phuc,1979,Calendar Year,maize_corn,1.006,1.62962963,38.26818183221177
+Dong Nai,1985,Calendar Year,soybean,0.93,0.6737804878,38.02714932226627
+Gia Lai-Kon Tum,1988,Calendar Year,soybean,0.46,0.3333333333,38.00000001380002
+Son La,1980,Calendar Year,peanut,0.46,0.3333333333,38.00000001380002
+Hai Phong City,1985,Calendar Year,maize_corn,1.38,1.0,37.999999999999986
+Son La,1984,Calendar Year,sugarcane,38.63,28.0,37.96428571428572
+Thai Binh,1988,Calendar Year,cassava,11.03,8.0,37.87499999999999
+Hoang Lien Son,1979,Calendar Year,peanut,0.689,0.5,37.79999999999999
+Tien Giang,1976,Calendar Year,peanut,1.377,1.0,37.7
+Quang Ninh,1985,Calendar Year,sugarcane,22.94,16.66666667,37.63999997247199
+Binh Duong,1980,Calendar Year,soybean,0.624,1.0,37.6
+Quang Nam,1994,Northern Spring Rice,rice_paddy,4.05,2.945368171,37.50403225906251
+Phu Khanh,1978,Calendar Year,soybean,0.627,1.0,37.3
+Nghia Binh,1980,Calendar Year,maize_corn,0.502,0.8,37.25000000000001
+Kien Giang,1976,Calendar Year,maize_corn,1.569,2.5,37.24
+Ha Bac,1980,Calendar Year,sweet_potatoes,5.94,4.333333333,37.07692308746747
+Gia Lai-Kon Tum,1981,Calendar Year,cassava,5.28,8.384146341,37.02399999651914
+Cuu Long,1984,Calendar Year,maize_corn,1.26,2.0,37.0
+Tay Ninh,1980,Calendar Year,soybean,0.633,1.0,36.7
+Ha Nam Ninh,1980,Northern Winter Rice,rice_paddy,1.0,1.578373016,36.64362036964778
+Ca Mau,1985,Calendar Year,maize_corn,1.36,1.0,36.00000000000001
+Hai Phong City,1979,Calendar Year,peanut,0.64,1.0,36.0
+Son La,1980,Calendar Year,maize_corn,0.961,1.5,35.93333333333334
+Binh Tri Thien,1976,Calendar Year,sugarcane,10.36,16.0,35.25
+Vinh Phuc,1980,Calendar Year,soybean,0.169,0.125,35.20000000000001
+Long An,1980,Calendar Year,sweet_potatoes,5.78,4.285714286,34.86666665767555
+Thuan Hai,1977,Calendar Year,soybean,0.655,1.0,34.5
+Bac Thai,1978,Calendar Year,soybean,0.329,0.5,34.199999999999996
+Ha Son Binh,1976,Northern Spring Rice,rice_paddy,2.7,4.098865478,34.128113877076096
+Ha Son Binh,1975,Northern Spring Rice,rice_paddy,2.27,3.4416,34.042305904230595
+Ha Son Binh,1977,Northern Spring Rice,rice_paddy,2.0,3.03125,34.02061855670103
+Kien Giang,1988,Calendar Year,maize_corn,1.34,1.0,34.00000000000001
+Thai Binh,1981,Calendar Year,cassava,16.06,12.0,33.83333333333332
+Lai Chau,1987,Calendar Year,peanut,0.85,0.6363636364,33.571428563795905
+Kien Giang,1989,Calendar Year,maize_corn,1.33,2.0,33.5
+Hau Giang,1977,Calendar Year,cassava,8.0,6.0,33.33333333333333
+Ca Mau,1977,Calendar Year,soybean,0.334,0.5,33.199999999999996
+Vinh Phuc,1978,Calendar Year,maize_corn,1.14,1.706293706,33.18852457866361
+Hoang Lien Son,1979,Calendar Year,soybean,0.363,0.2727272727,33.10000001330998
+Hai Phong City,1982,Calendar Year,soybean,1.34,2.0,32.99999999999999
+Dac Khu Vung Tau Con Dao,1983,Calendar Year,peanut,1.34,2.0,32.99999999999999
+Binh Duong,1976,Calendar Year,sugarcane,45.6,67.89130435,32.83381364288076
+Ha Noi City,1977,Calendar Year,soybean,0.336,0.5,32.8
+Gia Lai-Kon Tum,1977,Calendar Year,soybean,0.337,0.5,32.599999999999994
+Son La,1981,Calendar Year,peanut,0.53,0.4,32.5
+Ha Son Binh,1977,Northern Winter Rice,rice_paddy,2.17,3.183116883,31.82782537489372
+Ha Son Binh,1976,Northern Winter Rice,rice_paddy,2.27,3.324775353,31.72471042436773
+An Giang,1982,Calendar Year,sweet_potatoes,10.28,15.0,31.466666666666672
+Long An,1988,Calendar Year,peanut,1.37,1.042253521,31.445945961932637
+Lai Chau,1977,Calendar Year,sugarcane,26.76,39.0,31.384615384615383
+Ha Son Binh,1975,Northern Winter Rice,rice_paddy,2.43,3.536,31.27828054298642
+Ben Tre,1979,Calendar Year,sweet_potatoes,6.16,8.956521739,31.223300969872174
+Tien Giang,1980,Calendar Year,soybean,1.31,1.0,31.000000000000007
+Hoang Lien Son,1976,Calendar Year,peanut,1.04,1.5,30.666666666666664
+Kien Giang,1989,Calendar Year,peanut,1.39,2.0,30.500000000000004
+Cuu Long,1980,Calendar Year,peanut,0.87,0.6666666667,30.499999993475008
+Thuan Hai,1976,Calendar Year,soybean,0.697,1.0,30.300000000000004
+Cao Bang,1977,Calendar Year,peanut,0.434,0.3333333333,30.200000013020006
+Kien Giang,1987,Calendar Year,peanut,1.3,1.0,30.000000000000004
+Tien Giang,1976,Calendar Year,soybean,1.3,1.0,30.000000000000004
+Dac Khu Vung Tau Con Dao,1984,Calendar Year,maize_corn,1.3,1.0,30.000000000000004
+Thuan Hai,1990,Calendar Year,soybean,0.7,1.0,30.000000000000004
+Thai Binh,1985,Calendar Year,cassava,15.59,12.0,29.916666666666664
+Kien Giang,1977,Calendar Year,peanut,1.299,1.0,29.89999999999999
+Hai Phong City,1983,Calendar Year,sugarcane,40.0,57.0,29.82456140350877
+Quang Ninh,1979,Calendar Year,soybean,0.351,0.5,29.800000000000004
+Son La,1983,Calendar Year,peanut,0.47,0.6666666667,29.500000003525003
+Hai Phong City,1988,Calendar Year,peanut,1.41,2.0,29.500000000000004
+Dong Thap,1982,Calendar Year,peanut,1.41,2.0,29.500000000000004
+Ha Bac,1980,Calendar Year,maize_corn,1.04,1.472972973,29.394495414139556
+Tay Ninh,1984,Calendar Year,sweet_potatoes,3.88,3.0,29.33333333333333
+Kien Giang,1978,Calendar Year,peanut,1.292,1.0,29.200000000000003
+Dong Thap,1985,Calendar Year,cassava,6.46,5.0,29.2
+Thai Binh,1983,Calendar Year,cassava,15.5,12.0,29.166666666666668
+Ca Mau,1988,Calendar Year,peanut,1.29,1.0,29.000000000000004
+Lam Dong,1980,Calendar Year,sugarcane,53.97,76.0,28.98684210526316
+Ca Mau,1978,Calendar Year,peanut,0.711,1.0,28.900000000000002
+Kien Giang,1980,Calendar Year,maize_corn,1.289,1.0,28.89999999999999
+Hai Phong City,1989,Calendar Year,sugarcane,28.5,40.0,28.749999999999996
+Son La,1976,Calendar Year,maize_corn,1.01,1.414965986,28.620192287788313
+Binh Duong,1981,Calendar Year,soybean,0.357,0.5,28.6
+Cuu Long,1978,Calendar Year,soybean,0.716,1.0,28.400000000000002
+Dac Khu Vung Tau Con Dao,1990,Calendar Year,cassava,6.4,5.0,28.000000000000007
+Dac Khu Vung Tau Con Dao,1989,Calendar Year,cassava,6.4,5.0,28.000000000000007
+Ca Mau,1976,Calendar Year,sugarcane,35.4,27.66666667,27.95180721349977
+Binh Tri Thien,1981,Calendar Year,soybean,0.213,0.1666666667,27.799999974440006
+Vinh Phuc,1976,Northern Winter Rice,rice_paddy,1.97,2.727848101,27.781902545166687
+Kien Giang,1980,Calendar Year,peanut,1.275,1.0,27.499999999999993
+Vinh Phuc,1979,Calendar Year,soybean,0.106,0.08333333333,27.200000005088004
+Kien Giang,1990,Calendar Year,peanut,1.27,1.0,27.0
+Thuan Hai,1988,Calendar Year,soybean,0.73,1.0,27.0
+Thuan Hai,1981,Calendar Year,soybean,0.366,0.5,26.8
+Thai Binh,1976,Calendar Year,cassava,12.65,10.0,26.5
+Vinh Phuc,1977,Northern Winter Rice,rice_paddy,1.96,2.663076923,26.400924319075713
+Vinh Phuc,1977,Northern Spring Rice,rice_paddy,1.21,1.643518519,26.377464810300683
+Phu Khanh,1985,Calendar Year,soybean,0.37,0.5,26.0
+Gia Lai-Kon Tum,1982,Calendar Year,soybean,0.74,1.0,26.0
+Quang Ninh,1982,Calendar Year,sugarcane,21.6,29.0,25.51724137931034
+Binh Tri Thien,1977,Calendar Year,maize_corn,0.601,0.8024691358,25.10615384592341
+Dong Thap,1976,Calendar Year,cassava,9.0,12.0,25.0
+Binh Duong,1986,Calendar Year,soybean,0.75,1.0,25.0
+Dac Khu Vung Tau Con Dao,1983,Calendar Year,maize_corn,1.5,2.0,25.0
+Thanh Hoa,1981,Calendar Year,soybean,0.5,0.4,24.999999999999993
+Gia Lai-Kon Tum,1983,Calendar Year,soybean,0.5,0.4,24.999999999999993
+Long An,1978,Calendar Year,sugarcane,42.108,56.14,24.99465621660136
+Dac Khu Vung Tau Con Dao,1986,Calendar Year,cassava,6.79,9.0,24.555555555555557
+Vinh Phuc,1978,Calendar Year,peanut,0.453,0.6,24.499999999999993
+Tien Giang,1978,Calendar Year,sweet_potatoes,5.74,7.6,24.473684210526308
+Lam Dong,1976,Calendar Year,peanut,0.606,0.8,24.250000000000007
+Hai Phong City,1980,Calendar Year,sugarcane,23.6,19.0,24.210526315789483
+Dong Thap,1990,Calendar Year,maize_corn,2.037,2.6875,24.2046511627907
+Binh Duong,1977,Calendar Year,soybean,0.759,1.0,24.099999999999998
+Kien Giang,1990,Calendar Year,maize_corn,1.24,1.0,24.0
+Quang Nam-Da Nang,1983,Calendar Year,soybean,0.76,1.0,24.0
+Hau Giang,1978,Calendar Year,cassava,8.68,7.0,23.999999999999996
+Dong Thap,1984,Calendar Year,cassava,6.18,5.0,23.599999999999994
+Dak Lak,1990,Calendar Year,peanut,0.75,0.980952381,23.543689324099823
+Hai Phong City,1984,Calendar Year,maize_corn,1.53,2.0,23.5
+Dac Khu Vung Tau Con Dao,1984,Calendar Year,cassava,4.6,6.0,23.33333333333334
+Hoang Lien Son,1980,Calendar Year,peanut,0.74,0.6,23.333333333333336
+Ho Chi Minh City,1979,Calendar Year,sugarcane,45.966,37.27777778,23.30670640099513
+Lang Son,1976,Calendar Year,sugarcane,20.72,27.0,23.259259259259263
+Ca Mau,1986,Calendar Year,maize_corn,1.54,2.0,23.0
+Tay Ninh,1985,Calendar Year,soybean,0.77,1.0,23.0
+Thuan Hai,1989,Calendar Year,soybean,0.77,1.0,23.0
+Tay Ninh,1983,Calendar Year,soybean,0.77,1.0,23.0
+Thanh Hoa,1984,Calendar Year,soybean,0.22,0.2857142857,22.999999996150002
+Lang Son,1976,Calendar Year,soybean,0.661,0.8571428571,22.8833333294775
+Tay Ninh,1989,Calendar Year,maize_corn,0.92,0.75,22.66666666666667
+Dong Thap,1980,Calendar Year,sweet_potatoes,6.66,8.6,22.55813953488372
+Son La,1979,Calendar Year,peanut,0.611,0.5,22.199999999999996
+Son La,1980,Calendar Year,sugarcane,29.99,38.5,22.10389610389611
+An Giang,1987,Calendar Year,peanut,1.56,2.0,21.999999999999996
+Nghe Tinh,1987,Calendar Year,soybean,0.26,0.3333333333,21.999999992199992
+Hoang Lien Son,1976,Calendar Year,maize_corn,1.079,0.8869047619,21.65906040333776
+Lai Chau,1979,Calendar Year,peanut,0.608,0.5,21.599999999999998
+Dong Thap,1978,Calendar Year,peanut,0.81,0.6666666667,21.499999993925016
+Phu Khanh,1981,Calendar Year,peanut,0.52,0.4285714286,21.333333325244443
+Binh Duong,1984,Calendar Year,soybean,0.79,1.0,20.999999999999996
+Hau Giang,1979,Calendar Year,peanut,1.209,1.0,20.900000000000006
+Quang Ninh,1979,Calendar Year,peanut,0.793,1.0,20.699999999999996
+Dac Khu Vung Tau Con Dao,1986,Calendar Year,sugarcane,19.3,16.0,20.625000000000004
+Lai Chau,1976,Calendar Year,peanut,0.723,0.6,20.5
+Thai Binh,1977,Calendar Year,cassava,11.15,14.0,20.357142857142854
+Hai Phong City,1978,Calendar Year,maize_corn,1.195,1.5,20.33333333333333
+Cuu Long,1976,Calendar Year,peanut,0.798,1.0,20.199999999999996
+An Giang,1983,Calendar Year,sweet_potatoes,10.8,9.0,20.000000000000007
+Kien Giang,1984,Calendar Year,soybean,0.72,0.6,20.0
+Ho Chi Minh City,1983,Calendar Year,soybean,1.2,1.0,19.999999999999996
+Dac Khu Vung Tau Con Dao,1982,Calendar Year,sugarcane,2.0,1.666666667,19.999999975999994
+Ca Mau,1977,Calendar Year,sugarcane,47.912,40.0,19.779999999999998
+Dong Thap,1976,Calendar Year,soybean,0.803,1.0,19.699999999999996
+Tay Ninh,1985,Calendar Year,sweet_potatoes,3.59,3.0,19.666666666666664
+Ha Noi City,1980,Calendar Year,soybean,0.276,0.2307692308,19.599999984053344
+Binh Duong,1990,Calendar Year,sugarcane,30.92,38.43333333,19.54900259493053
+Dong Thap,1988,Calendar Year,cassava,5.97,5.0,19.399999999999995
+Ha Noi City,1977,Calendar Year,peanut,0.597,0.5,19.399999999999995
+Thanh Hoa,1992,Northern Winter Rice,rice_paddy,1.88,2.32967033,19.301886803872375
+Tay Ninh,1984,Calendar Year,soybean,0.81,1.0,18.999999999999993
+Hai Phong City,1988,Calendar Year,soybean,1.62,2.0,18.999999999999993
+Thai Binh,1990,Calendar Year,sugarcane,43.8,54.0,18.888888888888893
+Dak Lak,1989,Calendar Year,peanut,0.77,0.9484536082,18.81521738724511
+Ha Tuyen,1982,Calendar Year,soybean,0.44,0.3703703704,18.799999990496005
+Lai Chau,1979,Calendar Year,sugarcane,18.98,16.0,18.625000000000004
+Dong Thap,1980,Calendar Year,peanut,1.186,1.0,18.599999999999994
+Dac Khu Vung Tau Con Dao,1984,Calendar Year,sugarcane,29.33,36.0,18.527777777777782
+Hai Phong,1977,Calendar Year,cassava,5.71,7.0,18.42857142857143
+Hai Phong City,1987,Calendar Year,sugarcane,42.62,36.0,18.388888888888882
+Vinh Phuc,1989,Calendar Year,sugarcane,52.41,44.27272727,18.379876804006972
+Nghe Tinh,1979,Calendar Year,soybean,0.263,0.2222222222,18.350000011835
+Dak Lak,1980,Calendar Year,soybean,0.71,0.6,18.333333333333332
+Dong Thap,1977,Calendar Year,cassava,8.17,10.0,18.3
+Thai Binh,1987,Calendar Year,cassava,11.8,10.0,18.000000000000007
+Hai Phong,1986,Calendar Year,cassava,8.2,10.0,18.000000000000007
+Hai Phong City,1986,Calendar Year,maize_corn,1.64,2.0,18.000000000000004
+An Giang,1982,Calendar Year,peanut,1.18,1.0,17.999999999999993
+Dong Thap,1981,Calendar Year,peanut,1.18,1.0,17.999999999999993
+Ca Mau,1983,Calendar Year,peanut,0.59,0.5,17.999999999999993
+Cao Bang,1981,Calendar Year,peanut,0.412,0.5,17.600000000000005
+Hoang Lien Son,1978,Calendar Year,peanut,0.784,0.6666666667,17.59999999412001
+Long An,1987,Calendar Year,sweet_potatoes,4.7,4.0,17.500000000000004
+Ha Noi,1989,Calendar Year,cassava,5.51,6.675,17.453183520599254
+Ha Tuyen,1981,Calendar Year,soybean,0.473,0.5714285714,17.22499999586126
+An Giang,1981,Calendar Year,sweet_potatoes,9.96,8.5,17.176470588235304
+Dac Khu Vung Tau Con Dao,1983,Calendar Year,cassava,6.44,5.5,17.090909090909097
+Hai Phong City,1983,Calendar Year,maize_corn,1.66,2.0,17.000000000000004
+Thuan Hai,1985,Calendar Year,soybean,0.83,1.0,17.000000000000004
+Hai Phong City,1984,Calendar Year,peanut,0.83,1.0,17.000000000000004
+Hai Phong City,1984,Calendar Year,sugarcane,41.5,50.0,17.0
+Hai Phong City,1985,Calendar Year,soybean,1.17,1.0,16.999999999999993
+An Giang,1981,Calendar Year,peanut,1.17,1.0,16.999999999999993
+Cuu Long,1978,Calendar Year,peanut,0.831,1.0,16.900000000000006
+Lang Son,1979,Calendar Year,peanut,0.555,0.6666666667,16.750000004162487
+Hoang Lien Son,1977,Calendar Year,peanut,0.833,1.0,16.700000000000003
+Ho Chi Minh City,1981,Calendar Year,soybean,1.75,1.5,16.666666666666664
+Tay Ninh,1984,Calendar Year,cassava,9.6,8.240310078,16.500470360091217
+An Giang,1978,Calendar Year,sweet_potatoes,6.21,5.333333333,16.43750000727735
+Tuyen Quang,1989,Northern Winter Rice,rice_paddy,2.79,2.396226415,16.433070870725707
+Phu Yen,1989,Calendar Year,maize_corn,0.61,0.7272727273,16.125000003145317
+Hai Phong,1984,Calendar Year,cassava,8.9,7.666666667,16.08695651669187
+Quang Ninh,1988,Calendar Year,sugarcane,27.29,32.5,16.030769230769234
+Lam Dong,1990,Calendar Year,soybean,0.64,0.5517241379,16.00000000652501
+Tay Ninh,1982,Calendar Year,soybean,0.84,1.0,16.000000000000004
+Phu Khanh,1986,Calendar Year,soybean,0.42,0.5,16.000000000000004
+Kien Giang,1983,Calendar Year,maize_corn,1.26,1.5,16.0
+Dac Khu Vung Tau Con Dao,1985,Calendar Year,sweet_potatoes,2.9,2.5,15.999999999999998
+Nghe Tinh,1988,Calendar Year,soybean,0.29,0.25,15.999999999999993
+Dac Khu Vung Tau Con Dao,1987,Calendar Year,sweet_potatoes,3.09,2.666666667,15.874999985515625
+Nghe Tinh,1978,Calendar Year,soybean,0.316,0.375,15.733333333333333
+Hai Phong,1982,Calendar Year,cassava,8.1,7.0,15.714285714285708
+Ha Son Binh,1980,Calendar Year,soybean,0.281,0.3333333333,15.699999991569985
+Ha Son Binh,1976,Calendar Year,soybean,0.289,0.25,15.59999999999999
+Lang Son,1980,Calendar Year,soybean,0.674,0.5833333333,15.542857149459593
+Ca Mau,1976,Calendar Year,maize_corn,1.267,1.5,15.53333333333334
+Nghia Binh,1981,Calendar Year,soybean,0.604,0.7142857143,15.440000001691201
+Gia Lai-Kon Tum,1989,Calendar Year,sugarcane,25.46,22.06451613,15.38888888382797
+Hau Giang,1985,Calendar Year,cassava,8.05,9.5,15.263157894736834
+Phu Yen,1990,Calendar Year,maize_corn,0.65,0.5641025641,15.227272727796484
+Thai Binh,1980,Calendar Year,cassava,15.28,18.0,15.111111111111114
+Hau Giang,1987,Calendar Year,soybean,1.33,1.15625,15.027027027027035
+An Giang,1983,Calendar Year,peanut,1.15,1.0,14.999999999999991
+Tien Giang,1985,Calendar Year,peanut,1.15,1.0,14.999999999999991
+Lang Son,1978,Calendar Year,soybean,0.657,0.5714285714,14.975000005748749
+Vinh Phuc,1976,Northern Spring Rice,rice_paddy,2.31,2.715855573,14.943930635887307
+Long An,1990,Calendar Year,sweet_potatoes,4.26,5.0,14.800000000000004
+Dak Lak,1976,Calendar Year,sugarcane,21.31,25.0,14.760000000000007
+Lai Chau,1978,Calendar Year,sugarcane,24.728,29.0,14.731034482758615
+Dong Thap,1979,Calendar Year,cassava,7.39,8.666666667,14.730769234048816
+Binh Duong,1979,Calendar Year,sweet_potatoes,5.71,6.695652174,14.720779221886746
+Quang Ninh,1989,Calendar Year,sugarcane,27.3,32.0,14.687499999999998
+Hau Giang,1986,Calendar Year,cassava,7.04,8.25,14.666666666666666
+Ha Nam Ninh,1986,Calendar Year,soybean,0.64,0.75,14.666666666666664
+Hai Phong City,1981,Calendar Year,peanut,1.28,1.5,14.666666666666664
+Kien Giang,1986,Calendar Year,maize_corn,1.28,1.5,14.666666666666664
+Hai Phong City,1987,Calendar Year,soybean,1.71,2.0,14.500000000000002
+Quang Ninh,1986,Calendar Year,sugarcane,22.68,26.5,14.415094339622641
+Hai Phong,1983,Calendar Year,cassava,8.77,7.666666667,14.391304342852543
+Ca Mau,1983,Calendar Year,sweet_potatoes,8.08,9.4375,14.3841059602649
+Binh Dinh,1990,Calendar Year,maize_corn,0.817,0.7142857143,14.379999997712394
+Binh Tri Thien,1977,Calendar Year,sugarcane,10.57,12.33333333,14.297297274134404
+Dong Thap,1978,Calendar Year,cassava,8.0,7.0,14.285714285714285
+Dac Khu Vung Tau Con Dao,1989,Calendar Year,sweet_potatoes,3.0,3.5,14.285714285714285
+Dac Khu Vung Tau Con Dao,1990,Calendar Year,sweet_potatoes,3.0,3.5,14.285714285714285
+Ha Nam Ninh,1986,Calendar Year,sugarcane,43.5,50.69230769,14.188163880767291
+An Giang,1983,Calendar Year,maize_corn,1.58,1.84,14.130434782608695
+Cao Bang,1980,Calendar Year,peanut,0.38,0.3333333333,14.000000011400008
+Thuan Hai,1984,Calendar Year,soybean,0.86,1.0,14.000000000000002
+Cao Bang,1979,Calendar Year,peanut,0.43,0.5,14.000000000000002
+Long An,1982,Calendar Year,maize_corn,1.14,1.0,13.99999999999999
+Bac Thai,1976,Calendar Year,soybean,0.427,0.375,13.866666666666664
+Ha Nam Ninh,1985,Calendar Year,soybean,0.569,0.5,13.79999999999999
+Binh Duong,1985,Calendar Year,maize_corn,1.17,1.357142857,13.789473675135735
+Hai Hung,1986,Calendar Year,maize_corn,1.57,1.820512821,13.760563403359841
+Ha Noi City,1976,Calendar Year,soybean,0.432,0.5,13.600000000000001
+Hai Phong,1980,Calendar Year,cassava,4.54,4.0,13.5
+Thua Thien,1990,Calendar Year,sweet_potatoes,4.34,5.010989011,13.390350877382925
+Ha Tuyen,1978,Calendar Year,soybean,0.353,0.4074074074,13.354545452970083
+Gia Lai-Kon Tum,1990,Calendar Year,peanut,0.85,0.75,13.33333333333333
+Hau Giang,1979,Calendar Year,cassava,8.68,10.0,13.200000000000003
+Dong Thap,1982,Calendar Year,cassava,5.21,6.0,13.166666666666668
+Lam Dong,1981,Calendar Year,sugarcane,49.18,43.5,13.057471264367814
+Hai Phong,1978,Calendar Year,cassava,5.65,5.0,13.000000000000005
+Hai Phong City,1982,Calendar Year,peanut,1.13,1.0,12.99999999999999
+Dac Khu Vung Tau Con Dao,1984,Calendar Year,sweet_potatoes,2.9,3.333333333,12.999999991300006
+Hau Giang,1985,Calendar Year,maize_corn,1.22,1.4,12.857142857142852
+Vinh Phuc,1978,Calendar Year,soybean,0.083,0.09523809524,12.850000001742995
+An Giang,1990,Calendar Year,sweet_potatoes,21.43,19.0,12.789473684210526
+Phu Khanh,1977,Calendar Year,cassava,6.36,7.288732394,12.74202898112327
+Quang Nam-Da Nang,1981,Calendar Year,soybean,0.873,1.0,12.7
+Ho Chi Minh City,1978,Calendar Year,sugarcane,38.42,43.93333333,12.549317140557614
+Quang Ninh,1981,Calendar Year,soybean,0.375,0.3333333333,12.500000011250007
+Thanh Hoa,1985,Calendar Year,soybean,0.35,0.4,12.50000000000001
+Kien Giang,1985,Calendar Year,soybean,0.45,0.4,12.499999999999996
+Ha Nam Ninh,1981,Calendar Year,soybean,0.703,0.625,12.479999999999993
+Hai Hung,1990,Calendar Year,cassava,8.17,9.333333333,12.464285711159445
+Quang Nam-Da Nang,1988,Calendar Year,sugarcane,30.01,26.68888889,12.443796831288768
+Cuu Long,1977,Calendar Year,peanut,0.899,0.8,12.374999999999996
+Long An,1986,Calendar Year,sweet_potatoes,4.49,4.0,12.250000000000005
+Binh Tri Thien,1979,Calendar Year,sugarcane,16.895,19.25,12.233766233766236
+Phu Khanh,1984,Calendar Year,peanut,0.51,0.4545454545,12.20000001122
+Gia Lai-Kon Tum,1976,Calendar Year,soybean,0.561,0.5,12.20000000000001
+Hai Duong,1994,Northern Winter Rice,rice_paddy,3.22,2.873825503,12.045773017137854
+Lang Son,1984,Calendar Year,peanut,0.56,0.5,12.00000000000001
+Ben Tre,1985,Calendar Year,soybean,1.12,1.0,12.00000000000001
+Khanh Hoa,1990,Calendar Year,soybean,0.88,1.0,12.0
+Thuan Hai,1982,Calendar Year,soybean,0.88,1.0,12.0
+Gia Lai-Kon Tum,1977,Calendar Year,peanut,0.587,0.6666666667,11.9500000044025
+Ha Tuyen,1980,Calendar Year,peanut,0.529,0.6,11.833333333333327
+Ca Mau,1984,Calendar Year,peanut,0.63,0.7142857143,11.800000001763998
+Son La,1986,Calendar Year,sugarcane,29.9,26.8,11.56716417910447
+Lam Dong,1984,Calendar Year,cassava,11.15,10.0,11.500000000000004
+Thai Binh,1986,Calendar Year,sugarcane,38.55,43.5,11.379310344827593
+An Giang,1985,Calendar Year,sweet_potatoes,11.97,13.5,11.333333333333329
+Kien Giang,1987,Calendar Year,maize_corn,1.33,1.5,11.333333333333329
+Minh Hai,1990,Calendar Year,cassava,7.095,8.0,11.312500000000004
+Quang Nam-Da Nang,1984,Calendar Year,sweet_potatoes,5.84,5.247191011,11.297644544619379
+Tien Giang,1983,Calendar Year,peanut,0.71,0.8,11.25000000000001
+Hai Phong,1981,Calendar Year,cassava,5.03,5.666666667,11.235294122868513
+Phu Khanh,1979,Calendar Year,peanut,0.556,0.5,11.20000000000001
+Hoang Lien Son,1980,Calendar Year,maize_corn,0.961,0.8648648649,11.11562499548592
+Quang Binh,1989,Calendar Year,sugarcane,10.0,9.0,11.11111111111111
+Hai Hung,1980,Calendar Year,sugarcane,52.58,47.33333333,11.084507050076366
+Ha Tuyen,1980,Calendar Year,soybean,0.356,0.4,11.00000000000001
+Binh Tri Thien,1982,Calendar Year,soybean,0.89,1.0,10.999999999999998
+Hai Phong City,1990,Calendar Year,soybean,1.78,2.0,10.999999999999998
+Lam Dong,1978,Calendar Year,soybean,0.485,0.4375,10.857142857142854
+Ha Nam Ninh,1980,Calendar Year,soybean,0.554,0.5,10.80000000000001
+Son La,1976,Calendar Year,sweet_potatoes,5.76,5.2,10.769230769230761
+Hau Giang,1983,Calendar Year,cassava,8.33,9.333333333,10.749999996812505
+Binh Tri Thien,1983,Calendar Year,soybean,0.51,0.5714285714,10.749999995537502
+Cao Bang,1987,Calendar Year,peanut,0.51,0.5714285714,10.749999995537502
+Thanh Hoa,1977,Calendar Year,soybean,0.302,0.2727272727,10.733333344406654
+Ha Tay,1994,Northern Winter Rice,rice_paddy,2.53,2.833530106,10.71208332522302
+Quang Ninh,1987,Calendar Year,sugarcane,30.37,34.0,10.676470588235292
+Hoang Lien Son,1982,Calendar Year,peanut,0.67,0.75,10.666666666666663
+Quang Nam-Da Nang,1982,Calendar Year,soybean,0.79,0.7142857143,10.599999997788007
+Dong Nai,1976,Calendar Year,sweet_potatoes,7.23,6.538461538,10.5764705960407
+Ha Tuyen,1978,Calendar Year,sugarcane,42.293,47.25,10.491005291005292
+Ha Tuyen,1980,Calendar Year,sugarcane,32.95,36.8,10.461956521739117
+Cuu Long,1980,Calendar Year,soybean,0.92,0.8333333333,10.400000004416
+Gia Lai-Kon Tum,1977,Calendar Year,sugarcane,28.0,31.25,10.4
+Cuu Long,1977,Calendar Year,soybean,0.896,1.0,10.399999999999999
+Ha Nam Ninh,1976,Calendar Year,soybean,0.414,0.375,10.399999999999993
+Hau Giang,1990,Calendar Year,peanut,1.38,1.25,10.399999999999991
+Ha Nam Ninh,1983,Calendar Year,soybean,0.46,0.4166666667,10.399999991167999
+Hai Hung,1985,Calendar Year,sugarcane,53.43,48.4,10.392561983471078
+Gia Lai-Kon Tum,1989,Calendar Year,peanut,0.87,0.7887323944,10.303571423844135
+Dac Khu Vung Tau Con Dao,1987,Calendar Year,cassava,6.28,7.0,10.285714285714283
+Lam Dong,1977,Calendar Year,soybean,0.689,0.625,10.239999999999991
+Gia Lai-Kon Tum,1979,Calendar Year,sugarcane,18.29,16.6,10.18072289156625
+Thai Binh,1989,Calendar Year,sugarcane,41.3,37.5,10.133333333333326
+Thai Binh,1978,Calendar Year,peanut,0.719,0.8,10.125000000000009
+Dac Khu Vung Tau Con Dao,1981,Calendar Year,cassava,6.0,6.666666667,10.000000004500004
+Binh Duong,1982,Calendar Year,soybean,0.6,0.6666666667,10.000000004499999
+Cao Bang,1989,Calendar Year,peanut,0.55,0.5,10.000000000000009
+Son La,1982,Calendar Year,peanut,0.55,0.5,10.000000000000009
+Lang Son,1982,Calendar Year,peanut,0.55,0.5,10.000000000000009
+Hau Giang,1983,Calendar Year,peanut,1.1,1.0,10.000000000000009
+Kien Giang,1982,Calendar Year,peanut,1.1,1.0,10.000000000000009
