@@ -17,9 +17,9 @@ Five sequential steps, each a standalone script:
 | Step | Script | Input | Output |
 |------|--------|-------|--------|
 | 0 | `stablebound` (external) | Raw FEWS CSV + boundary GeoJSONs | Stable-boundary yield stats |
-| 1 | `extract_gosif.py` | `Monthly.tar` (GOSIF) | `gosif_<cc>.nc` per country |
-| 2 | `aggregate_sif_by_crop.py` | GOSIF NetCDF + CROPGRIDs + boundaries | `sif_by_crop_<cc>.csv` |
-| 3 | `aggregate_annual.py` | Stablebound stats + SIF by crop | `annual_yield/sif/joined_<cc>.csv` |
+| 1 | `extract_csif.py` | `csif.zip` (CSIF all-sky) | `csif_<cc>.nc` per country |
+| 2 | `aggregate_sif_by_crop.py` | CSIF NetCDF + CROPGRIDs + boundaries | `sif_by_crop_<cc>.csv` |
+| 3 | `aggregate_annual.py` | Stablebound stats + SIF by crop + crop calendar | `annual_yield/sif/joined_<cc>.csv` |
 | 4 | `qaqc_yield_checks.py` | Annual yield | QA/QC CSVs + choropleth maps |
 | 5 | `sif_yield_variance.py` | Annual joined + QA flags | Pearson r maps, correlation CSV |
 
@@ -36,7 +36,7 @@ Two diagnostic tools that can be run at any point after Step 4:
 pipeline/           all pipeline scripts
   countries.yaml    per-country config — the only file to edit for a new country
   pipeline_config.py config loader (imported by all scripts)
-  extract_gosif.py
+  extract_csif.py
   aggregate_sif_by_crop.py
   aggregate_annual.py
   qaqc_yield_checks.py
@@ -62,7 +62,8 @@ results/            India model output parquets
 
 | File | Source | Notes |
 |------|--------|-------|
-| `Monthly.tar` | [GOSIF v2](https://globalecology.unh.edu/data/GOSIF.html) | 2.5 GB; monthly SIF 2000–2024 |
+| `csif.zip` | Zhang et al. (2018), Science Advances | ~16 annual NetCDFs; all-sky CSIF, 0.5 deg, 2001–2016 |
+| `All_data_with_climate.csv` | Sacks et al. crop calendar database | Growing season planting/harvest dates by country and crop |
 | `CROPGRIDSv1.08_NC_maps.zip` | [Figshare](https://figshare.com/articles/dataset/CROPGRIDs/21074736) | 770 MB; crop area NetCDFs |
 | `stablebound_starter/` | Team member / FEWS | FEWS yield CSVs + GAUL boundaries; excluded (proprietary) |
 | India NetCDFs (`data/raw/*.nc`) | ERA5 / CSIF | Excluded (too large) |
@@ -94,9 +95,9 @@ in the stablebound README before running Step 0.
 All scripts are run from the **project root** (the folder containing this README).
 
 ```bash
-# Step 1 — extract GOSIF SIF for each country
-python pipeline/extract_gosif.py            # all countries
-python pipeline/extract_gosif.py TH BD      # specific countries
+# Step 1 — extract CSIF SIF for each country (clips to bbox, aggregates 4-day composites to monthly)
+python pipeline/extract_csif.py             # all countries
+python pipeline/extract_csif.py TH BD      # specific countries
 
 # Step 2 — aggregate SIF to districts, weighted by CROPGRIDs crop area
 python pipeline/aggregate_sif_by_crop.py
@@ -172,6 +173,7 @@ For each (district, crop) pair with ≥5 overlapping years of yield and SIF data
 - Both series are **linearly detrended** before correlating (removes shared secular trends from yield-technology and SIF-landuse drift).
 - **Signed Pearson r** is reported alongside R² and p-value — direction matters and can be negative.
 - Two scenarios side by side: **full** (all reported years) and **cleaned** (QA-flagged points and series removed).
+- **Growing-season-matched SIF**: monthly SIF is averaged over only the active growing season months for each crop (from `data/raw/All_data_with_climate.csv`). Crops with calendar entries: rice (all months due to multi-season coverage), wheat (Nov–Apr), maize/TH (Apr–Sep), sugarcane (all months). Crops without entries (soybean, groundnut, cassava) use the 12-month mean.
 
 QA exclusions applied for "cleaned": single-year anomalies at |z| > 3, exact-repeat runs of length ≥ 4, reported-vs-calculated mismatches > 10%, and absolute low-CV series. See `pipeline/PROGRESS_LOG.md` Section 9 for the rationale.
 

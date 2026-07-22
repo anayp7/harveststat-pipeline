@@ -19,9 +19,12 @@ collapsed annual totals -- never averaged from reported per-season yields,
 per the stablebound README. Area preference: harvested area if reported,
 else planted area (BD and VN rice paddy report planted area only).
 
-SIF is collapsed to a plain calendar-year mean of the 12 monthly values --
-this is a placeholder until per-season growing-calendar windows are
-available; it is NOT a growing-season-matched aggregate yet.
+SIF is collapsed using crop-calendar growing season windows where available
+(from data/raw/All_data_with_climate.csv). Crops with a calendar entry are
+averaged over only the months between planting start and harvest end, taking
+the union across all seasons. Crops without an entry fall back to all 12 months.
+Coverage in the calendar: rice, wheat, maize, sugarcane. Soybean, groundnut,
+and cassava use the 12-month fallback.
 
 late_reporting rows are dropped (no stable-group geometry to join against).
 
@@ -33,7 +36,7 @@ Output:
     data/processed/annual_yield_<cc>.csv
         stable_id, crop, year, production_mt, area_ha, area_type, yield_mt_ha
     data/processed/annual_sif_<cc>.csv
-        stable_id, crop, year, sif_annual_mean, n_months
+        stable_id, crop, year, sif_annual_mean, n_months, sif_season_window
     data/processed/annual_joined_<cc>.csv
         the two above merged on (stable_id, crop, year)
 """
@@ -50,8 +53,58 @@ from pipeline_config import all_codes, get_country
 
 BASE     = _PIPELINE.parent
 PROC_DIR = BASE / "data" / "processed"
+CALENDAR_PATH = BASE / "data" / "raw" / "All_data_with_climate.csv"
 
 ALL_ENCOMPASSING = {"all year", "annual", "calendar year"}
+
+# Maps canonical CROPGRIDs crop names to the crop calendar's Crop field.
+# Crops absent from this dict fall back to the 12-month mean.
+_CANONICAL_TO_CALENDAR = {
+    "rice":      "Rice",
+    "wheat":     "Wheat",
+    "maize":     "Maize",
+    "sugarcane": "Sugarcane",
+}
+
+
+def _load_growing_season_months(
+    country_name: str, canonical_crop: str, calendar_df: pd.DataFrame
+) -> set[int] | None:
+    """
+    Return the set of calendar months (1-12) active during the growing season
+    for a given country + canonical crop, or None if not in the calendar.
+
+    Multi-season crops: takes the union of active months across all season rows
+    for that country-crop combination, so the returned set covers every month
+    during which *any* season of that crop might be in the field.
+    """
+    cal_crop = _CANONICAL_TO_CALENDAR.get(canonical_crop)
+    if cal_crop is None:
+        return None
+
+    rows = calendar_df[
+        calendar_df["Location"].str.contains(country_name, case=False, na=False)
+        & (calendar_df["Crop"] == cal_crop)
+    ]
+    if rows.empty:
+        return None
+
+    months: set[int] = set()
+    for _, row in rows.iterrows():
+        try:
+            plant_m   = int(str(row["Plant.start.date"]).split("/")[0])
+            harvest_m = int(str(row["Harvest.end.date"]).split("/")[0])
+        except (ValueError, IndexError):
+            continue
+
+        if harvest_m >= plant_m:
+            months.update(range(plant_m, harvest_m + 1))
+        else:
+            # Season wraps across the year boundary (e.g. plant Nov, harvest Feb)
+            months.update(range(plant_m, 13))
+            months.update(range(1, harvest_m + 1))
+
+    return months if months else None
 
 
 # ---------------------------------------------------------------------------
@@ -103,6 +156,9 @@ def process_country(cc: str) -> None:
         print("  No SIF crop file found, skipping.")
         return
 
+    calendar_df = pd.read_csv(CALENDAR_PATH) if CALENDAR_PATH.exists() else pd.DataFrame()
+    crop_map    = cfg["crop_map"]  # fews_crop -> canonical_crop
+
     yield_rows = []
     for crop in crops:
         prod = load_measure(stats, crop, "production_mt")
@@ -139,10 +195,32 @@ def process_country(cc: str) -> None:
     yield_df.to_csv(yield_out, index=False)
     print(f"  Wrote {yield_out.name}: {len(yield_df)} rows")
 
+    sif_annual_parts = []
+    for fews_crop in sorted(sif["crop"].unique()):
+        canonical  = crop_map.get(fews_crop, fews_crop)
+        gs_months  = _load_growing_season_months(cfg["name"], canonical, calendar_df)
+
+        crop_sif = sif[sif["crop"] == fews_crop].copy()
+        if gs_months:
+            crop_sif = crop_sif[crop_sif["month"].isin(gs_months)]
+            season_label = f"months {sorted(gs_months)}"
+        else:
+            season_label = "all 12 months (no calendar entry)"
+
+        agg = (
+            crop_sif.groupby(["stable_id", "crop", "year"])["sif_weighted"]
+            .agg(sif_annual_mean="mean", n_months="count")
+            .reset_index()
+        )
+        agg["sif_season_window"] = season_label
+        sif_annual_parts.append(agg)
+        print(f"  SIF window for {fews_crop} ({canonical}): {season_label}")
+
     sif_annual = (
-        sif.groupby(["stable_id", "crop", "year"])["sif_weighted"]
-        .agg(sif_annual_mean="mean", n_months="count")
-        .reset_index()
+        pd.concat(sif_annual_parts, ignore_index=True)
+        if sif_annual_parts else pd.DataFrame(
+            columns=["stable_id", "crop", "year", "sif_annual_mean", "n_months", "sif_season_window"]
+        )
     )
     sif_out = PROC_DIR / f"annual_sif_{cc.lower()}.csv"
     sif_annual.to_csv(sif_out, index=False)

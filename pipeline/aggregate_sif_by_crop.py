@@ -113,7 +113,7 @@ def process_country(cc: str) -> None:
     cfg = get_country(cc)
     crop_map = cfg["crop_map"]
 
-    sif_ds = xr.open_dataset(SIF_DIR / f"gosif_{cc.lower()}.nc")
+    sif_ds = xr.open_dataset(SIF_DIR / f"csif_{cc.lower()}.nc")
     lats = sif_ds["lat"].values
     lons = sif_ds["lon"].values
     transform = grid_transform(lats, lons)
@@ -130,7 +130,7 @@ def process_country(cc: str) -> None:
     n_empty = sum(not m.any() for m in district_masks.values())
     if n_empty:
         print(f"  WARNING: {n_empty} districts have zero pixels in the SIF grid "
-              f"(too small relative to 0.05deg resolution)")
+              f"(too small relative to 0.5deg resolution)")
 
     sif_values = sif_ds["sif"].values   # (time, lat, lon)
     time_index = pd.to_datetime(sif_ds["time"].values)

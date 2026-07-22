@@ -25,17 +25,13 @@ deliberately deferred -- a defensible ceiling needs crop-specific
 agronomic research, otherwise the cutoff is arbitrary. See PROGRESS_LOG.md.
 
 4. Single-year anomaly ("one bad year"), within a single district-crop
-   series. For each (stable_id, crop) series, z-score every year against
-   THAT series' own mean and std (not against other districts, and not
-   against local neighbors), flag |z| > 2.0, and count the number of
-   anomalous years per series. The map plots that count directly per
-   district-crop. This is deliberately the plain, standard definition of
-   a yield outlier year -- it will also catch a year that's part of a
-   genuine multi-year trend shift, not just an isolated spike that
-   reverts, which is an accepted tradeoff for keeping the definition
-   simple and standard. (An earlier version of this check used a local
-   neighbor-ratio and a second z-score layer across districts; replaced
-   after clarifying the intent -- see PROGRESS_LOG.md.)
+   series. For each (stable_id, crop) series, first remove a linear
+   trend (OLS fit of yield vs. year), then z-score the residuals against
+   their own std. Flag |z| > 2.0. Detrending first ensures that a
+   genuine secular trend (e.g. steady yield growth from inputs) does not
+   inflate z-scores in early years and deflate them in late years;
+   the check is about year-to-year shocks relative to the trend, not
+   about distance from a flat historical mean.
 
 5. Exact-repeat run detection, district-crop-series level. Flags runs of
    consecutive, truly-adjacent years (no gap) reporting an EXACTLY
@@ -242,18 +238,31 @@ def check_year_anomaly(cc: str) -> tuple[pd.DataFrame, pd.DataFrame]:
             district_rows.append((stable_id, crop, n_years, np.nan, 0))
             continue
 
-        mean = g["yield_mt_ha"].mean()
-        std = g["yield_mt_ha"].std()
-        if not std or std == 0:
-            district_rows.append((stable_id, crop, n_years, mean, 0))
+        years = g["year"].values.astype(float)
+        vals  = g["yield_mt_ha"].values.astype(float)
+
+        # Detrend: fit linear trend vs. year, z-score the residuals.
+        # OLS residuals have mean exactly 0 by construction, so the z-score
+        # is simply residual / std(residuals). This prevents a genuine upward
+        # trend from inflating z-scores in early years and deflating them in
+        # late years, or vice versa.
+        coeffs    = np.polyfit(years, vals, 1)
+        trend     = np.polyval(coeffs, years)
+        residuals = vals - trend
+        std_resid = residuals.std()
+        series_mean = vals.mean()
+
+        if not std_resid or std_resid == 0:
+            district_rows.append((stable_id, crop, n_years, series_mean, 0))
             continue
 
-        zscores = (g["yield_mt_ha"] - mean) / std
-        flagged = zscores.abs() > Z_OUTLIER_THRESHOLD
-        for i in g.index[flagged]:
-            event_rows.append((stable_id, crop, int(g.loc[i, "year"]), g.loc[i, "yield_mt_ha"],
-                                mean, std, zscores.loc[i]))
-        district_rows.append((stable_id, crop, n_years, mean, int(flagged.sum())))
+        zscores = residuals / std_resid
+        flagged = np.abs(zscores) > Z_OUTLIER_THRESHOLD
+        for i in range(len(g)):
+            if flagged[i]:
+                event_rows.append((stable_id, crop, int(g.loc[i, "year"]), g.loc[i, "yield_mt_ha"],
+                                    series_mean, std_resid, zscores[i]))
+        district_rows.append((stable_id, crop, n_years, series_mean, int(flagged.sum())))
 
     events = pd.DataFrame(event_rows, columns=[
         "stable_id", "crop", "year", "yield_mt_ha", "series_mean", "series_std", "zscore",
@@ -435,7 +444,7 @@ def plot_anomaly_maps(cc: str, district: pd.DataFrame) -> None:
         n_with_any = int((geo["n_anomalous_years"].fillna(0) > 0).sum())
         n_eligible = int((geo["eligible"] == True).sum())
         ax.set_title(f"{cc} — {crop} — anomalous years by district\n"
-                     f"(year's yield deviates >{Z_OUTLIER_THRESHOLD} std from that district's own series mean)\n"
+                     f"(detrended residual |z| > {Z_OUTLIER_THRESHOLD} vs. own series std)\n"
                      f"{n_with_any}/{n_eligible} eligible districts have >=1 anomalous year")
         ax.axis("off")
 
