@@ -1,0 +1,21 @@
+Country,Crop,Season_name,Plant_start_month,Harvest_end_month,Year_boundary_wrap,Confidence,Source
+Thailand,soybeans,Major (Rainy) Season,5,10,No,High,USDA FAS Thailand Oilseeds Annual 2023 (TH2023-0017); OAE Thailand Crop Calendar
+Thailand,soybeans,Minor (Dry/Post-Rice) Season,12,4,Yes,High,USDA FAS Thailand Oilseeds Annual 2023 (TH2023-0017); OAE Thailand Crop Calendar
+Bangladesh,maize_corn,Rabi (Winter) Season,11,5,Yes,High,FAO/GIEWS Country Brief: Bangladesh (Nov 2023); CIMMYT CSISA Bangladesh Reports
+Bangladesh,maize_corn,Kharif-1 (Summer) Season,3,8,No,High,FAO/GIEWS Country Brief: Bangladesh (Nov 2023); BARI Agricultural Handbook
+Bangladesh,soybean_unspecified,Rabi (Winter) Season,12,5,Yes,High,BARI Oilseed Research Centre; DAE Extension Manual; USDA FAS Oilseeds Bangladesh
+Bangladesh,groundnuts_in_shell,Rabi (Winter) Season,11,5,Yes,High,BARC Cropping Systems Database; BARI
+Bangladesh,groundnuts_in_shell,Kharif (Monsoon) Season,5,10,No,Medium,BARC Cropping Systems Database; BARI Groundnut Production Bulletins
+Vietnam,maize_corn,Spring Crop (North/Central),2,7,No,High,FAO/GIEWS Country Brief: Viet Nam (2023); MARD Crop Production Dept
+Vietnam,maize_corn,Autumn/Winter Crop (North/Central),7,11,No,High,FAO/GIEWS Country Brief: Viet Nam (2023); MARD Crop Production Dept
+Vietnam,maize_corn,Mekong Dry Season Crop,12,4,Yes,Medium,General agronomic consensus / MARD Mekong cropping schedules
+Vietnam,cassava,Southern / Central Highlands,4,3,Yes,High,CIAT Asia Cassava Program (2020); MARD Crop Production Statistics
+Vietnam,cassava,Northern Vietnam,2,2,Yes,Medium,CIAT Asia Cassava Program; MARD Crop Production Statistics
+Vietnam,soybean,Spring Crop,2,6,No,Medium,MARD Crop Production Dept; FAO Rice-Based Cropping Systems Vietnam
+Vietnam,soybean,Winter Crop (Post-Rice),9,1,Yes,Medium,MARD Crop Production Dept; FAO Rice-Based Cropping Systems Vietnam
+Vietnam,soybean_unspecified,Spring Crop,2,6,No,Medium,MARD Crop Production Dept; FAO Rice-Based Cropping Systems Vietnam
+Vietnam,soybean_unspecified,Winter Crop (Post-Rice),9,1,Yes,Medium,MARD Crop Production Dept; FAO Rice-Based Cropping Systems Vietnam
+Vietnam,sugarcane,Plant & Ratoon Crop Cycle,10,11,Yes,High,VSSA Annual Campaign Reports; USDA FAS Vietnam Sugar Annual (VM2023-0021)
+Vietnam,sugarcane_for_sugar,Plant & Ratoon Crop Cycle,10,11,Yes,High,VSSA Annual Campaign Reports; USDA FAS Vietnam Sugar Annual (VM2023-0021)
+Vietnam,groundnuts_in_shell,Spring Crop,2,6,No,High,MARD Crop Production Dept; ICRISAT Peanut Research Vietnam
+Vietnam,groundnuts_in_shell,Autumn Crop,7,11,No,High,MARD Crop Production Dept; ICRISAT Peanut Research Vietnam

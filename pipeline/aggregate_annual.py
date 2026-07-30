@@ -19,12 +19,24 @@ collapsed annual totals -- never averaged from reported per-season yields,
 per the stablebound README. Area preference: harvested area if reported,
 else planted area (BD and VN rice paddy report planted area only).
 
-SIF is collapsed using crop-calendar growing season windows where available
-(from data/raw/All_data_with_climate.csv). Crops with a calendar entry are
-averaged over only the months between planting start and harvest end, taking
-the union across all seasons. Crops without an entry fall back to all 12 months.
-Coverage in the calendar: rice, wheat, maize, sugarcane. Soybean, groundnut,
-and cassava use the 12-month fallback.
+SIF is collapsed using crop-calendar growing season windows, checked in two
+tiers:
+  1. Sacks et al. (data/raw/All_data_with_climate.csv) -- a peer-reviewed,
+     published crop calendar. Covers rice (all three countries) and wheat
+     (Bangladesh only).
+  2. A researched-but-unverified fallback (data/raw/researched_crop_calendars.csv),
+     compiled via LLM-assisted literature research (FAO/GIEWS, USDA FAS,
+     CIMMYT, national ministries) for the crops absent from Sacks: TH
+     soybeans; BD maize/soybean/groundnut; VN maize/cassava/soybean/
+     sugarcane/groundnut. Citations in that file have not been independently
+     verified against source documents -- treat with more caution than the
+     Sacks-derived windows. Rows are keyed directly on the FEWS crop slug
+     (not the canonical CROPGRIDs name) and unioned the same way as Sacks.
+  3. Crops present in neither tier fall back to a flat 12-month average.
+
+The `sif_season_window` column in the output records which tier produced the
+window, so downstream consumers (e.g. the dashboard) can distinguish
+published-source windows from researched/unverified ones.
 
 late_reporting rows are dropped (no stable-group geometry to join against).
 
@@ -54,6 +66,7 @@ from pipeline_config import all_codes, get_country
 BASE     = _PIPELINE.parent
 PROC_DIR = BASE / "data" / "processed"
 CALENDAR_PATH = BASE / "data" / "raw" / "All_data_with_climate.csv"
+RESEARCHED_CALENDAR_PATH = BASE / "data" / "raw" / "researched_crop_calendars.csv"
 
 ALL_ENCOMPASSING = {"all year", "annual", "calendar year"}
 
@@ -101,6 +114,40 @@ def _load_growing_season_months(
             months.update(range(plant_m, harvest_m + 1))
         else:
             # Season wraps across the year boundary (e.g. plant Nov, harvest Feb)
+            months.update(range(plant_m, 13))
+            months.update(range(1, harvest_m + 1))
+
+    return months if months else None
+
+
+def _load_researched_season_months(
+    country_name: str, fews_crop: str, researched_df: pd.DataFrame
+) -> set[int] | None:
+    """
+    Fallback tier for crops absent from the Sacks calendar: an LLM-researched,
+    unverified calendar (data/raw/researched_crop_calendars.csv). Keyed
+    directly on the FEWS crop slug rather than the canonical CROPGRIDs name,
+    since that file was compiled against this pipeline's own crop_map keys.
+    Same wraparound-union logic as _load_growing_season_months.
+    """
+    if researched_df.empty:
+        return None
+
+    rows = researched_df[
+        (researched_df["Country"] == country_name) & (researched_df["Crop"] == fews_crop)
+    ]
+    if rows.empty:
+        return None
+
+    months: set[int] = set()
+    for _, row in rows.iterrows():
+        plant_m   = int(row["Plant_start_month"])
+        harvest_m = int(row["Harvest_end_month"])
+        wraps     = str(row["Year_boundary_wrap"]).strip().lower() == "yes"
+
+        if not wraps:
+            months.update(range(plant_m, harvest_m + 1))
+        else:
             months.update(range(plant_m, 13))
             months.update(range(1, harvest_m + 1))
 
@@ -156,7 +203,8 @@ def process_country(cc: str) -> None:
         print("  No SIF crop file found, skipping.")
         return
 
-    calendar_df = pd.read_csv(CALENDAR_PATH) if CALENDAR_PATH.exists() else pd.DataFrame()
+    calendar_df    = pd.read_csv(CALENDAR_PATH) if CALENDAR_PATH.exists() else pd.DataFrame()
+    researched_df  = pd.read_csv(RESEARCHED_CALENDAR_PATH) if RESEARCHED_CALENDAR_PATH.exists() else pd.DataFrame()
     crop_map    = cfg["crop_map"]  # fews_crop -> canonical_crop
 
     yield_rows = []
@@ -200,10 +248,16 @@ def process_country(cc: str) -> None:
         canonical  = crop_map.get(fews_crop, fews_crop)
         gs_months  = _load_growing_season_months(cfg["name"], canonical, calendar_df)
 
+        if gs_months:
+            source_tag = "Sacks et al."
+        else:
+            gs_months  = _load_researched_season_months(cfg["name"], fews_crop, researched_df)
+            source_tag = "researched, unverified"
+
         crop_sif = sif[sif["crop"] == fews_crop].copy()
         if gs_months:
             crop_sif = crop_sif[crop_sif["month"].isin(gs_months)]
-            season_label = f"months {sorted(gs_months)}"
+            season_label = f"months {sorted(gs_months)} ({source_tag})"
         else:
             season_label = "all 12 months (no calendar entry)"
 
