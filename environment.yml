@@ -1,0 +1,36 @@
+# Conda environment for the dashboard — recommended on macOS / miniforge,
+# where pip-installing on top of a conda geopandas commonly breaks numpy's
+# binary interface (see dashboard/README.md, Troubleshooting).
+#
+#   conda env create -f environment.yml
+#   conda activate harveststat
+#   streamlit run dashboard/app.py
+#
+# Everything is resolved from conda-forge in a single solve, so the compiled
+# stack (numpy / shapely / pyproj / GDAL) is ABI-consistent. Do not pip install
+# these packages on top afterwards.
+
+name: harveststat
+
+channels:
+  - conda-forge
+
+# Upper bounds are deliberate. Left open, conda resolves to the newest release
+# of everything (pandas 3.x at time of writing), which is outside what this
+# project has been tested against. These ranges track the known-good set below
+# while still allowing minor and patch updates.
+dependencies:
+  - python=3.12
+  # geopandas 1.x is the first series built against the numpy 2 ABI; pairing
+  # an older geopandas with numpy 2 is the usual cause of the
+  # "Error importing numpy" failure.
+  - geopandas>=1.0,<2
+  - numpy>=2.0,<3
+  - pandas>=2.0,<3
+  - scipy>=1.10,<2
+  - pyyaml>=6.0
+  # Installed inside the env on purpose: if streamlit only exists in `base`,
+  # the `streamlit` command silently runs against base's packages instead of
+  # this environment's.
+  - streamlit>=1.35,<2
+  - plotly>=5.20,<7
