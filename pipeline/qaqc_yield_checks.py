@@ -101,13 +101,40 @@ def check_reported_vs_calculated(cc: str) -> pd.DataFrame:
     print(f"\n=== {cc}: reported vs. calculated yield mismatch")
     df = pd.read_csv(get_country(cc)["raw_csv_path"], low_memory=False)
 
-    reported   = pd.to_numeric(df["Yield: MT/ha (reported)"], errors="coerce")
-    calculated = pd.to_numeric(df["Yield: MT/ha (calculated)"], errors="coerce")
+    # Column casing is not consistent across sources: TH/BD/VN ship
+    # "(reported)", India's DESAGRI export ships "(Reported)".
+    def _col(name: str) -> pd.Series:
+        for c in df.columns:
+            if c.lower() == name.lower():
+                return df[c]
+        raise KeyError(f"{name!r} not found in {get_country(cc)['raw_csv_path'].name}; "
+                       f"columns are {list(df.columns)}")
+
+    reported   = pd.to_numeric(_col("Yield: MT/ha (reported)"), errors="coerce")
+    calculated = pd.to_numeric(_col("Yield: MT/ha (calculated)"), errors="coerce")
 
     both = reported.notna() & calculated.notna() & (calculated > 0)
     pct_diff = ((reported - calculated).abs() / calculated) * 100
 
-    crop = df["Source crop"].fillna(df.get("crop")).map(crop_slug)
+    # Fall back to a plain crop column only if one actually exists. India's
+    # export has "Crop" (capitalised, and entirely empty) rather than "crop",
+    # so df.get("crop") returned None and fillna(None) raised.
+    crop_series = _col("Source crop")
+    fallback = next((df[c] for c in df.columns
+                     if c.lower() == "crop" and df[c].notna().any()), None)
+    if fallback is not None:
+        crop_series = crop_series.fillna(fallback)
+
+    # The raw CSV and stats_aggregated normalise crop names differently:
+    # "Cotton(lint)" slugs to cotton_lint here but is cottonlint in the stats
+    # file, likewise arhar_tur vs arhartur. Downstream exclusion matching joins
+    # on this name, so map onto the crop_map spelling by comparing with all
+    # separators stripped. Countries whose slugs already agree are unaffected.
+    crop_map = get_country(cc)["crop_map"]
+    canonical = {k.replace("_", ""): k for k in crop_map}
+    crop = crop_series.map(crop_slug).map(
+        lambda s: canonical.get(str(s).replace("_", ""), s)
+    )
 
     out = pd.DataFrame({
         "admin_1":    df["Admin 1"],

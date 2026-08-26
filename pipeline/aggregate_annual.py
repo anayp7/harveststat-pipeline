@@ -53,6 +53,7 @@ Output:
         the two above merged on (stable_id, crop, year)
 """
 
+import re
 import sys
 from pathlib import Path
 
@@ -68,7 +69,10 @@ PROC_DIR = BASE / "data" / "processed"
 CALENDAR_PATH = BASE / "data" / "raw" / "All_data_with_climate.csv"
 RESEARCHED_CALENDAR_PATH = BASE / "data" / "raw" / "researched_crop_calendars.csv"
 
-ALL_ENCOMPASSING = {"all year", "annual", "calendar year"}
+# Season labels that already represent a full-year total, so they must be used
+# alone rather than summed with any sub-season rows in the same group.
+# "whole year" is India/DESAGRI's spelling.
+ALL_ENCOMPASSING = {"all year", "annual", "calendar year", "whole year"}
 
 # Maps canonical CROPGRIDs crop names to the crop calendar's Crop field.
 # Crops absent from this dict fall back to the 12-month mean.
@@ -95,8 +99,14 @@ def _load_growing_season_months(
     if cal_crop is None:
         return None
 
+    # Anchor at the start with a word boundary. A bare substring match would
+    # pull "Indiana" (the US state) into India's calendar -- the only such
+    # collision among our countries, but a silent and badly wrong one, since it
+    # would apply temperate US windows to Indian crops. Every legitimate
+    # Location starts with the country name ("Vietnam (North)", "Thailand (NE)").
     rows = calendar_df[
-        calendar_df["Location"].str.contains(country_name, case=False, na=False)
+        calendar_df["Location"].str.match(rf"{re.escape(country_name)}\b",
+                                          case=False, na=False)
         & (calendar_df["Crop"] == cal_crop)
     ]
     if rows.empty:
@@ -207,25 +217,38 @@ def process_country(cc: str) -> None:
     researched_df  = pd.read_csv(RESEARCHED_CALENDAR_PATH) if RESEARCHED_CALENDAR_PATH.exists() else pd.DataFrame()
     crop_map    = cfg["crop_map"]  # fews_crop -> canonical_crop
 
+    area_measures = cfg["area_measures"]   # [(variable_suffix, area_type), ...]
+
     yield_rows = []
     for crop in crops:
         prod = load_measure(stats, crop, "production_mt")
-        harv = load_measure(stats, crop, "area_harvested_ha")
-        plnt = load_measure(stats, crop, "area_planted_ha")
 
         if prod.empty:
             print(f"  {crop}: no production_mt rows, skipping")
             continue
 
-        merged = prod.merge(harv, on=["stable_id", "year"], how="left")
-        merged = merged.merge(plnt, on=["stable_id", "year"], how="left")
+        merged = prod
+        for suffix, _ in area_measures:
+            merged = merged.merge(load_measure(stats, crop, suffix),
+                                  on=["stable_id", "year"], how="left")
 
-        merged["area_ha"] = merged["area_harvested_ha"]
-        merged["area_type"] = "harvested"
-        use_planted = merged["area_ha"].isna() & merged["area_planted_ha"].notna()
-        merged.loc[use_planted, "area_ha"] = merged.loc[use_planted, "area_planted_ha"]
-        merged.loc[use_planted, "area_type"] = "planted"
+        # Fill area from the configured measures in priority order, recording
+        # which one each row came from. India reports a single `area_ha`
+        # (planted); TH/BD/VN report harvested and planted separately.
+        # Accumulate in local Series first: India's source measure is itself
+        # named "area_ha", so writing the target column up front would clobber
+        # the very data being read.
+        area_vals  = pd.Series(pd.NA, index=merged.index, dtype="object")
+        area_types = pd.Series(pd.NA, index=merged.index, dtype="object")
+        for suffix, area_type in area_measures:
+            if suffix not in merged.columns:
+                continue
+            take = area_vals.isna() & merged[suffix].notna()
+            area_vals[take]  = merged.loc[take, suffix]
+            area_types[take] = area_type
 
+        merged["area_ha"]   = pd.to_numeric(area_vals, errors="coerce")
+        merged["area_type"] = area_types
         safe_area = merged["area_ha"].replace(0, pd.NA)
         merged["yield_mt_ha"] = merged["production_mt"] / safe_area
         merged["crop"] = crop

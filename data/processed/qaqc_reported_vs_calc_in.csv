@@ -1,0 +1,102 @@
+admin_1,year,season,crop,reported,calculated,pct_diff
+Mizoram,2007,Kharif,cottonlint,0.02,0.01,100.0
+Rajasthan,2002,Kharif,cottonlint,0.02,0.01,100.0
+Madhya Pradesh,1998,Kharif,cottonlint,0.02,0.01,100.0
+Gujarat,1999,Kharif,sesamum,0.03,0.02,49.999999999999986
+Maharashtra,2015,Kharif,niger_seed,0.03,0.02,49.999999999999986
+Himachal Pradesh,2000,Kharif,jowar,0.03,0.02,49.999999999999986
+Jammu And Kashmir,2014,Kharif,urad,0.03,0.02,49.999999999999986
+Assam,1998,Kharif,mesta,0.03,0.02,49.999999999999986
+West Bengal,1997,Summer,moong_green_gram,0.03,0.02,49.999999999999986
+Uttar Pradesh,2004,Kharif,cottonlint,0.03,0.02,49.999999999999986
+Rajasthan,2000,Kharif,small_millets,0.03,0.02,49.999999999999986
+Odisha,2022,Autumn,jute,0.03,0.02,49.999999999999986
+Madhya Pradesh,2007,Kharif,cottonlint,0.03,0.02,49.999999999999986
+Chhattisgarh,2023,Kharif,small_millets,0.17,0.33,48.484848484848484
+Chhattisgarh,2023,Kharif,small_millets,0.14,0.25,43.99999999999999
+Kerala,2016,Whole Year,sesamum,0.04,0.03,33.33333333333334
+Madhya Pradesh,2009,Whole Year,cottonlint,0.04,0.03,33.33333333333334
+Uttar Pradesh,2005,Kharif,cottonlint,0.04,0.03,33.33333333333334
+Kerala,2018,Whole Year,sugarcane,85.0,68.0,25.0
+Karnataka,2023,Kharif,moong,0.31,0.25,24.0
+Madhya Pradesh,2018,Kharif,mesta,0.04,0.05,20.000000000000004
+Chhattisgarh,2023,Kharif,small_millets,0.08,0.1,20.000000000000004
+Kerala,2023,Kharif,maize,0.39,0.33,18.18181818181818
+Kerala,2009,Whole Year,cardamom,0.07,0.06,16.666666666666682
+Tamil Nadu,2016,Rabi,cottonlint,0.05,0.06,16.66666666666666
+Assam,2015,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2013,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2008,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2006,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2021,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2007,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2008,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2010,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,1997,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2001,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2002,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2018,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2001,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Mizoram,2016,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Uttar Pradesh,2021,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Madhya Pradesh,2009,Whole Year,mesta,0.06,0.07,14.285714285714295
+Uttar Pradesh,2021,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2003,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2005,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2006,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Uttar Pradesh,2021,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Uttar Pradesh,2021,Kharif,cottonlint,0.06,0.07,14.285714285714295
+Assam,2003,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,1998,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2005,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2004,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2001,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2020,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2019,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2011,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2015,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2018,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Andhra Pradesh,2019,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2014,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,1997,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2017,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2004,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2012,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2009,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2010,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2001,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2013,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2019,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,1997,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2008,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,1999,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2002,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Mizoram,2018,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Uttar Pradesh,2018,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Madhya Pradesh,2001,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Maharashtra,2015,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Manipur,2001,Whole Year,dry_chillies,0.09,0.08,12.499999999999993
+Assam,2005,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2002,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Himachal Pradesh,2002,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Assam,2015,Kharif,cottonlint,0.07,0.08,12.499999999999993
+Kerala,2023,Rabi,jowar,1.18,1.33,11.278195488721813
+Assam,2004,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Madhya Pradesh,2018,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Assam,2004,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Nagaland,2008,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Meghalaya,2022,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Maharashtra,2020,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Maharashtra,2002,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Nagaland,2011,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Tamil Nadu,2023,Rabi,moong,0.1,0.09,11.111111111111121
+Madhya Pradesh,2018,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Assam,2003,Kharif,cottonlint,0.1,0.09,11.111111111111121
+Assam,2009,Kharif,cottonlint,0.08,0.09,11.111111111111107
+Madhya Pradesh,2002,Kharif,cottonlint,0.08,0.09,11.111111111111107
+Jammu And Kashmir,2005,Kharif,cottonlint,0.08,0.09,11.111111111111107
+Jammu And Kashmir,2007,Kharif,cottonlint,0.08,0.09,11.111111111111107
+Jammu And Kashmir,2007,Kharif,cottonlint,0.08,0.09,11.111111111111107
+Jammu And Kashmir,2006,Kharif,cottonlint,0.08,0.09,11.111111111111107
+Maharashtra,2000,Kharif,cottonlint,0.08,0.09,11.111111111111107
+Kerala,2020,Whole Year,maize,1.1,1.0,10.000000000000009

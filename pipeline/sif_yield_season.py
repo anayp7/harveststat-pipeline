@@ -43,6 +43,7 @@ Usage:
 """
 
 import sys
+from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -100,11 +101,52 @@ SEASON_MONTH_OFFSETS = {
     ("VN", "rice_paddy", "Southern Spring Rice"): [(11,-1),(12,-1)] + [(m, 0) for m in [1,2,3,4,5]],
 }
 
+# ---- India ----------------------------------------------------------------
+# DESAGRI labels every row with an explicit agricultural season, so the windows
+# come from the data rather than a crop calendar (Sacks has no India rice,
+# wheat or maize entry at all).
+#
+# IMPORTANT -- India inverts the year convention used above. Verified from the
+# raw file's Start/End Period columns: Rabi rows start in month 10 of `Year`
+# and end in month 1 of `Year`+1, and Winter rows start month 12 of `Year` and
+# end month 3 of `Year`+1. So India's `Year` is the season's START year, and
+# months falling in the following calendar year take year_offset = +1 --
+# whereas for BD Boro / VN Winter-Spring `year` is the HARVEST year and the
+# earlier months take -1. Getting this backwards would shift SIF by a full year.
+#
+# Month spans follow standard Indian agronomic practice for when the crop is
+# standing in the field, anchored on those data-derived offsets.
+_IN_SEASON_WINDOWS = {
+    "Kharif":     [(m, 0) for m in (6, 7, 8, 9, 10)],            # monsoon crop
+    "Rabi":       [(10, 0), (11, 0), (12, 0)] + [(m, 1) for m in (1, 2, 3, 4)],
+    "Summer":     [(m, 0) for m in (3, 4, 5, 6)],                # zaid
+    "Autumn":     [(m, 0) for m in (6, 7, 8, 9, 10)],            # aus-type rice
+    "Winter":     [(12, 0)] + [(m, 1) for m in (1, 2, 3)],
+    "Whole Year": [(m, 0) for m in range(1, 13)],
+}
+
+# Generated for every India crop; combinations with no yield rows are skipped
+# at runtime rather than enumerated by hand.
+for _crop in ("rice", "wheat", "maize", "sugarcane", "soyabean", "groundnut",
+              "jowar", "bajra", "ragi", "gram", "arhartur", "rapeseed_mustard",
+              "cottonlint", "potato", "barley", "sesamum"):
+    for _season, _window in _IN_SEASON_WINDOWS.items():
+        SEASON_MONTH_OFFSETS[("IN", _crop, _season)] = _window
+
 # Dual label: canonical season name for display (calendar / stablebound)
 SEASON_DISPLAY = {
+    "Kharif": "Kharif / monsoon",
+    "Rabi":   "Rabi / winter-sown",
+    "Summer": "Summer / zaid",
+    "Autumn": "Autumn",
+    "Winter": "Winter",
+    "Whole Year": "Whole Year",
     "Wet":  "Wet / Main",   "Dry":  "Dry / S2",
     "Aman": "Aman / Main",  "Aus":  "Aus / S3",  "Boro": "Boro / S2",
-    "Rabi": "Rabi (wheat)", "Annual": "Annual (wheat)",
+    # "Rabi" is shared by BD (wheat only) and IN (wheat, gram, mustard,
+    # barley...), so the label stays crop-neutral -- the crop is shown
+    # alongside it everywhere this is used.
+    "Annual": "Annual (wheat)",
     "Northern Summer Rice": "N. Summer Rice",
     "Northern Autumn Rice": "N. Autumn Rice",
     "Northern Winter Rice": "N. Winter / Dong Xuan",
@@ -124,6 +166,17 @@ def _safe_slug(s: str) -> str:
     return s.replace(" ", "_").replace("/", "-").lower()
 
 
+@lru_cache(maxsize=8)
+def _read_stats(path) -> pd.DataFrame:
+    """
+    Cached read of stats_aggregated.csv, already filtered to reporting rows.
+    India's is 50 MB and gets queried once per (crop, season) pair -- ~96
+    combinations -- so re-reading per call dominated the runtime.
+    """
+    stats = pd.read_csv(path)
+    return stats[~stats["late_reporting"].astype(bool)]
+
+
 def _load_season_yield(cfg: dict, crop: str, season: str) -> pd.DataFrame:
     """
     Pull season-level yield from stats_aggregated: production / area per
@@ -131,8 +184,7 @@ def _load_season_yield(cfg: dict, crop: str, season: str) -> pd.DataFrame:
     Skips late_reporting rows. Uses harvested area, falls back to planted area.
     Returns DataFrame with columns [stable_id, year, yield_mt_ha].
     """
-    stats = pd.read_csv(cfg["stats_aggregated_path"])
-    stats = stats[~stats["late_reporting"]]
+    stats = _read_stats(cfg["stats_aggregated_path"])
 
     def _get(measure: str) -> pd.DataFrame:
         sub = stats[(stats["variable"] == f"{crop}_{measure}") & (stats["season"] == season)]
@@ -141,19 +193,26 @@ def _load_season_yield(cfg: dict, crop: str, season: str) -> pd.DataFrame:
         return sub[["stable_id", "year", "value"]].copy()
 
     prod = _get("production_mt").rename(columns={"value": "production_mt"})
-    harv = _get("area_harvested_ha").rename(columns={"value": "area_harvested_ha"})
-    plnt = _get("area_planted_ha").rename(columns={"value": "area_planted_ha"})
-
     if prod.empty:
         return pd.DataFrame(columns=["stable_id", "year", "yield_mt_ha"])
 
-    merged = prod.merge(harv, on=["stable_id", "year"], how="left")
-    merged = merged.merge(plnt, on=["stable_id", "year"], how="left")
+    # Area variables are country-specific: TH/BD/VN split harvested vs planted,
+    # India reports a single planted `area_ha`. See countries.yaml.
+    merged = prod
+    for suffix, _ in cfg["area_measures"]:
+        merged = merged.merge(_get(suffix).rename(columns={"value": suffix}),
+                              on=["stable_id", "year"], how="left")
 
-    merged["area_ha"] = merged.get("area_harvested_ha")
-    no_harv = merged["area_ha"].isna() & merged.get("area_planted_ha", pd.Series(dtype=float)).notna()
-    merged.loc[no_harv, "area_ha"] = merged.loc[no_harv, "area_planted_ha"]
+    # Accumulate separately: India's source measure is itself named "area_ha",
+    # so assigning the target column first would clobber the data being read.
+    area_vals = pd.Series(pd.NA, index=merged.index, dtype="object")
+    for suffix, _ in cfg["area_measures"]:
+        if suffix not in merged.columns:
+            continue
+        take = area_vals.isna() & merged[suffix].notna()
+        area_vals[take] = merged.loc[take, suffix]
 
+    merged["area_ha"] = pd.to_numeric(area_vals, errors="coerce")
     safe_area = merged["area_ha"].replace(0, pd.NA)
     merged["yield_mt_ha"] = merged["production_mt"] / safe_area
     return merged[["stable_id", "year", "yield_mt_ha"]].dropna(subset=["yield_mt_ha"])

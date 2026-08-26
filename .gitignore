@@ -100,3 +100,20 @@ ehthumbs.db
 *.swp
 *.swo
 *~
+
+# ------------------------------------------------------------
+# India (stablebound_IN_package) — proprietary DESAGRI statistics
+# plus the packaged wheel. Extracted to stablebound_starter/,
+# which is already excluded above.
+# ------------------------------------------------------------
+stablebound_IN_package.zip
+
+# ------------------------------------------------------------
+# India's monthly SIF-by-crop table is 46 MB (478 districts x 16
+# crops x 192 months) — too large to commit, and no longer needed
+# at runtime: the dashboard reads the season-mean SIF carried in
+# data/dashboard/season_yield_in.csv instead. Regenerate with
+#   python pipeline/aggregate_sif_by_crop.py IN
+# The other countries' equivalents are 1-3 MB and stay committed.
+# ------------------------------------------------------------
+data/processed/sif_by_crop_in.csv

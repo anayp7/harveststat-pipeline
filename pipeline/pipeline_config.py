@@ -71,4 +71,13 @@ def get_country(cc: str) -> dict:
     raw["admin_name_aliases"] = raw.get("admin_name_aliases") or {}
     raw["crop_map"]           = raw.get("crop_map") or {}
 
+    # Which stats_aggregated variables carry area, in priority order, and what
+    # kind of area each is. FEWS-sourced countries (TH/BD/VN) report harvested
+    # and planted separately; India's DESAGRI reports a single planted `area_ha`.
+    # Default preserves the original harvested-then-planted behaviour.
+    raw["area_measures"] = [
+        tuple(m) for m in raw.get("area_measures")
+        or [["area_harvested_ha", "harvested"], ["area_planted_ha", "planted"]]
+    ]
+
     return raw

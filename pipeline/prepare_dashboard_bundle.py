@@ -39,9 +39,11 @@ if str(_PIPELINE) not in sys.path:
 from pipeline_config import all_codes, get_country
 from sif_yield_season import (
     SEASON_MONTH_OFFSETS, _load_season_yield, _build_exclusions,
+    _build_sif_lookup, _season_sif_mean,
 )
 
 BASE       = _PIPELINE.parent
+PROC_DIR   = BASE / "data" / "processed"
 BUNDLE_DIR = BASE / "data" / "dashboard"
 
 # ~0.01 deg ~= 1 km. Province polygons stay visually identical at the zoom
@@ -69,11 +71,24 @@ def build_boundaries(cc: str) -> None:
 
 
 def build_season_yield(cc: str) -> None:
-    """Season-level yield for every (crop, season) the dashboard can drill into."""
+    """
+    Season-level yield AND season-mean CSIF for every (crop, season) the
+    dashboard can drill into.
+
+    Carrying the SIF here means the dashboard never has to read
+    sif_by_crop_<cc>.csv, which for India is 46 MB of monthly rows (478
+    districts x 16 crops x 192 months) -- far too large to commit just so a
+    drilldown can average a handful of months.
+    """
     cfg = get_country(cc)
     if not cfg["stats_aggregated_path"].exists():
         print(f"  season yield: SKIP (no stats_aggregated.csv)")
         return
+
+    sif_path = PROC_DIR / f"sif_by_crop_{cc.lower()}.csv"
+    sif_lookup = _build_sif_lookup(pd.read_csv(sif_path)) if sif_path.exists() else {}
+    if not sif_lookup:
+        print("  season yield: WARNING no sif_by_crop file; SIF column will be empty")
 
     keys = [(crop, season) for (country, crop, season) in SEASON_MONTH_OFFSETS
             if country == cc]
@@ -84,7 +99,12 @@ def build_season_yield(cc: str) -> None:
             continue
         y = y.copy()
         y["crop"], y["season"] = crop, season
-        parts.append(y[["stable_id", "crop", "season", "year", "yield_mt_ha"]])
+        offsets = SEASON_MONTH_OFFSETS[(cc, crop, season)]
+        y["sif"] = [
+            _season_sif_mean(sif_lookup, sid, crop, int(yr), offsets)
+            for sid, yr in zip(y["stable_id"], y["year"])
+        ]
+        parts.append(y[["stable_id", "crop", "season", "year", "yield_mt_ha", "sif"]])
 
     out = BUNDLE_DIR / f"season_yield_{cc.lower()}.csv"
     if not parts:
@@ -94,9 +114,24 @@ def build_season_yield(cc: str) -> None:
         return
 
     df = pd.concat(parts, ignore_index=True)
+    before = len(df)
+
+    # Keep only series the dashboard can actually draw. The drilldown opens from
+    # a clicked map cell, so a (stable_id, crop, season) with no correlation row
+    # -- fewer than MIN_YEARS of overlap -- is unreachable. India ships 16 crops
+    # x 6 seasons, most combinations empty, so this is a large saving.
+    corr_path = PROC_DIR / f"sif_yield_season_corr_{cc.lower()}.csv"
+    if corr_path.exists():
+        corr = pd.read_csv(corr_path)
+        keep = set(zip(corr["stable_id"], corr["crop"], corr["season"]))
+        df = df[[k in keep for k in zip(df["stable_id"], df["crop"], df["season"])]]
+    else:
+        print("  season yield: WARNING no correlation file; keeping all rows")
+
     df.to_csv(out, index=False)
     print(f"  season yield: {len(df)} rows across {df['season'].nunique()} season(s), "
-          f"{out.stat().st_size / 1e6:.2f} MB")
+          f"{out.stat().st_size / 1e6:.2f} MB "
+          f"(dropped {before - len(df)} unreachable rows)")
 
 
 def build_exclusions(cc: str) -> None:

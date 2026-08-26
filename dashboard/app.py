@@ -213,7 +213,11 @@ def load_calendar_rows(cc: str) -> list[dict]:
 
     if SACKS_PATH.exists():
         sacks = pd.read_csv(SACKS_PATH)
-        sub = sacks[sacks["Location"].str.contains(country, case=False, na=False)]
+        # Anchored word-boundary match: a bare substring would pull "Indiana"
+        # (the US state) into India's calendar. Every legitimate Location
+        # starts with the country name, e.g. "Vietnam (North)".
+        sub = sacks[sacks["Location"].str.match(rf"{re.escape(country)}\b",
+                                                case=False, na=False)]
         for _, r in sub.iterrows():
             ps = _date_to_frac(r["Plant.start.date"])
             pe = _date_to_frac(r["Plant.end.date"])
@@ -504,8 +508,20 @@ def district_series(cc: str, stable_id: str, crop: str,
         bundled = BUNDLE_DIR / f"season_yield_{cc.lower()}.csv"
         if bundled.exists():
             sy = pd.read_csv(bundled)
-            yld = sy[(sy["stable_id"] == stable_id) & (sy["crop"] == crop)
-                     & (sy["season"] == season_raw)][["stable_id", "year", "yield_mt_ha"]]
+            sel = sy[(sy["stable_id"] == stable_id) & (sy["crop"] == crop)
+                     & (sy["season"] == season_raw)]
+            # The bundle carries the season-mean SIF alongside the yield, so we
+            # never touch sif_by_crop_<cc>.csv here (46 MB for India).
+            if "sif" in sel.columns:
+                out = sel[["year", "yield_mt_ha", "sif"]].dropna(
+                    subset=["yield_mt_ha", "sif"]
+                ).sort_values("year").reset_index(drop=True)
+                excluded_points, _ = load_exclusions(cc)
+                out["qa_excluded"] = out["year"].apply(
+                    lambda y: (stable_id, crop, int(y)) in excluded_points
+                )
+                return out
+            yld = sel[["stable_id", "year", "yield_mt_ha"]]
         else:
             yld = _load_season_yield(get_country(cc), crop, season_raw)
             yld = yld[yld["stable_id"] == stable_id]

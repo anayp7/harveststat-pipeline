@@ -17,6 +17,12 @@
 #                     -> CROPGRIDs filename stem (file: data/raw/cropgrids/CROPGRIDSv1.08_<stem>.nc)
 #                     Multiple FEWS slugs may map to the same CROPGRIDs stem
 #                     (e.g. "soybean" and "soybean_unspecified" both -> "soybean").
+#   area_measures   - OPTIONAL. Which stats_aggregated variables carry area,
+#                     in priority order, as [variable_suffix, area_type].
+#                     Omit for FEWS-sourced countries, which report harvested
+#                     and planted separately and default to
+#                     [[area_harvested_ha, harvested], [area_planted_ha, planted]].
+#                     India's DESAGRI export reports a single planted `area_ha`.
 #   admin_name_aliases - raw CSV admin names that differ from the lineage spellings
 #                     that stablebound used when building name_history.csv.
 #                     Key: name as it appears in the raw FEWS CSV.
@@ -110,3 +116,38 @@ VN:
     Hai Phong: Hai Phong City
     Dac Khu Vung Tau Con Dao: Vung Tau-Con Dao
     Thua Thien: Thua Thien Hue
+
+IN:
+  name: India
+  # DESAGRI/Geolocet extent is [68.19, 6.76, 97.39, 35.67]; ~1 deg buffer added.
+  bbox: [67.0, 6.0, 98.5, 37.0]
+  stablebound_dir: stablebound_starter/stablebound_IN_package/india
+  raw_csv: stablebound_starter/stablebound_IN_package/india/in_desagri_feb2025.csv.gz
+  # stats_aggregated.csv is keyed to the 1997 base-year mesh (478 stable groups).
+  # The other stable_<year>.geojson files are alternative starting points, not a
+  # sequence -- their ids will not all match this stats file.
+  base_year: 1997
+  # DESAGRI reports one area figure per crop, and it is PLANTED area, so yields
+  # here are production per hectare planted (not per hectare harvested as for
+  # TH/BD/VN where harvested area is preferred).
+  area_measures:
+    - [area_ha, planted]
+  crop_map:
+    rice: rice
+    wheat: wheat
+    maize: maize
+    sugarcane: sugarcane
+    soyabean: soybean
+    groundnut: groundnut
+    jowar: sorghum              # sorghum
+    bajra: millet               # pearl millet
+    ragi: millet                # finger millet
+    gram: chickpea
+    arhartur: pigeonpea         # pigeon pea (arhar/tur)
+    rapeseed_mustard: rapeseed
+    cottonlint: cotton
+    potato: potato
+    barley: barley
+    sesamum: sesame
+  # Names are resolved inside the stablebound India lineage (785/785 districts
+  # matched via its own override list), so no aliases are needed here.

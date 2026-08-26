@@ -4,9 +4,9 @@ A reproducible pipeline for crop yield QA/QC and remote-sensing variance
 analysis. Built to work with any country where FEWS-format yield data and
 GAUL administrative boundaries are available.
 
-Currently configured for **Thailand (TH)**, **Bangladesh (BD)**, and
-**Vietnam (VN)**. Adding a new country requires editing one YAML file —
-no code changes.
+Currently configured for **Thailand (TH)**, **Bangladesh (BD)**,
+**Vietnam (VN)**, and **India (IN)**. Adding a new country requires editing
+one YAML file — no code changes.
 
 ---
 
@@ -66,6 +66,7 @@ results/            India model output parquets
 | `All_data_with_climate.csv` | Sacks et al. crop calendar database | Growing season planting/harvest dates by country and crop |
 | `CROPGRIDSv1.08_NC_maps.zip` | [Figshare](https://figshare.com/articles/dataset/CROPGRIDs/21074736) | 770 MB; crop area NetCDFs |
 | `stablebound_starter/` | Team member / FEWS | FEWS yield CSVs + GAUL boundaries; excluded (proprietary) |
+| `stablebound_IN_package.zip` | Team member / DESAGRI | India: statistics, district shapefile, and a stablebound wheel. Extract into `stablebound_starter/`. Excluded (proprietary) |
 | India NetCDFs (`data/raw/*.nc`) | ERA5 / CSIF | Excluded (too large) |
 
 Stablebound outputs (`_out/stable/`) must be regenerated locally by running
