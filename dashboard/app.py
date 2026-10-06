@@ -120,23 +120,32 @@ RESEARCHED_CALENDAR_HELP = (
 )
 
 
-FOCUS_ALL       = "All districts"
-FOCUS_INTENSITY = "Top % by cropping intensity"
-FOCUS_PRODUCTION = "Districts covering % of production"
+FOCUS_ALL        = "All districts"
+FOCUS_INTENSITY  = "Top N% of districts — by cropping intensity"
+FOCUS_PROD_RANK  = "Top N% of districts — by production"
+FOCUS_PRODUCTION = "Fewest districts covering N% of production"
 
 FOCUS_HELP = (
-    "Narrow the map to the districts that matter for this crop.\n\n"
-    "**Cropping intensity** — mean area under the crop divided by district "
-    "area, keeping the top N%. This is the measure the earlier India notebooks "
-    "used (\"Top 50% Cropping Intensity\").\n\n"
-    "**Share of production** — ranks districts by mean production and keeps the "
-    "fewest that together make up N% of the national total. Often far fewer "
-    "than half the districts.\n\n"
-    "This is more than navigation: a district only marginally planted to the "
-    "crop has its 0.5° CSIF pixel dominated by other vegetation, so filtering "
-    "to crop-dominant districts tests whether a weak national correlation is "
-    "really a pixel-mixing artifact. Excluded districts are dimmed, not "
-    "dropped, and the summary statistics recompute on what's left."
+    "Narrow the map to the districts that matter for this crop. Note what the "
+    "percentage counts — the first two modes measure a share of **districts**, "
+    "the third a share of **output**, and they are very different because "
+    "production is heavily skewed.\n\n"
+    "**Top N% of districts — by cropping intensity**: mean area under the crop "
+    "divided by district area. Always keeps exactly N% of districts. This is "
+    "the measure the earlier India notebooks used "
+    "(\"Top 50% Cropping Intensity\").\n\n"
+    "**Top N% of districts — by production**: ranks on mean production and "
+    "keeps the top N% of districts. Also exactly N% of districts, but a weak "
+    "filter — for many crops the top half of districts is already >90% of "
+    "national output.\n\n"
+    "**Fewest districts covering N% of production**: keeps adding districts "
+    "until cumulative output reaches N%. Usually far fewer than N% of "
+    "districts — for Indian sugarcane, 50% of output comes from about 5% of "
+    "districts.\n\n"
+    "This is an analytical control as well as navigation: at 0.5° a district "
+    "only marginally planted to the crop has its CSIF pixel dominated by other "
+    "vegetation. Excluded districts are dimmed, not dropped, and the summary "
+    "statistics recompute on what is left."
 )
 
 CLEANED_HELP = (
@@ -526,13 +535,20 @@ def apply_relevance_filter(cc: str, crop: str, ids: list[str],
     if rel.empty:
         return set(ids), "no overlap with mapped districts — filter not applied"
 
-    if mode == FOCUS_INTENSITY:
-        # Recompute the percentile within the mapped districts so the slider
-        # means "top N% of the districts actually on this map".
-        keep = rel[rel["cropping_fraction"].rank(pct=True) > (1 - pct / 100)]
-        note = (f"top {pct}% by cropping intensity "
-                f"(crop area / district area ≥ "
-                f"{rel['cropping_fraction'].quantile(1 - pct / 100):.1%})")
+    if mode in (FOCUS_INTENSITY, FOCUS_PROD_RANK):
+        # Count-based: always keeps exactly N% of the districts on this map.
+        # Percentiles are recomputed within the mapped set, so the slider means
+        # "top N% of the districts actually shown", not of the whole country.
+        col = ("cropping_fraction" if mode == FOCUS_INTENSITY else "mean_prod_mt")
+        keep = rel[rel[col].rank(pct=True) > (1 - pct / 100)]
+        if mode == FOCUS_INTENSITY:
+            note = (f"top {pct}% of districts by cropping intensity "
+                    f"(crop area / district area ≥ "
+                    f"{rel[col].quantile(1 - pct / 100):.1%})")
+        else:
+            share = keep["mean_prod_mt"].sum() / rel["mean_prod_mt"].sum()
+            note = (f"top {pct}% of districts by production "
+                    f"(= {share:.0%} of national output)")
     else:
         sub = rel.sort_values("mean_prod_mt", ascending=False).copy()
         total = sub["mean_prod_mt"].sum()
@@ -1017,16 +1033,20 @@ with tab_corr:
             f_focus, f_pct = st.columns([2, 2])
             with f_focus:
                 focus = st.selectbox(
-                    "Focus on", [FOCUS_ALL, FOCUS_INTENSITY, FOCUS_PRODUCTION],
+                    "Focus on",
+                    [FOCUS_ALL, FOCUS_INTENSITY, FOCUS_PROD_RANK, FOCUS_PRODUCTION],
                     key="corr_focus", help=FOCUS_HELP,
                 )
             with f_pct:
+                pct_label = ("N — % of output" if focus == FOCUS_PRODUCTION
+                             else "N — % of districts")
                 pct = st.slider(
-                    "Threshold (%)", min_value=10, max_value=90, value=50, step=5,
+                    pct_label, min_value=10, max_value=90, value=50, step=5,
                     key="corr_focus_pct",
                     disabled=(focus == FOCUS_ALL),
-                    help="Top N% of districts by intensity, or the fewest "
-                         "districts covering N% of national production.",
+                    help="The first two modes keep this share of **districts**; "
+                         "the third keeps however many districts are needed to "
+                         "reach this share of **output**.",
                 )
 
             unfiltered = filtered
