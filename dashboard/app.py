@@ -121,6 +121,7 @@ RESEARCHED_CALENDAR_HELP = (
 
 
 FOCUS_ALL        = "All districts"
+FOCUS_AREA       = "Top N% of districts — by crop area"
 FOCUS_INTENSITY  = "Top N% of districts — by cropping intensity"
 FOCUS_PROD_RANK  = "Top N% of districts — by production"
 FOCUS_PRODUCTION = "Fewest districts covering N% of production"
@@ -130,6 +131,12 @@ FOCUS_HELP = (
     "percentage counts — the first two modes measure a share of **districts**, "
     "the third a share of **output**, and they are very different because "
     "production is heavily skewed.\n\n"
+    "**Top N% of districts — by crop area**: absolute hectares under the crop. "
+    "Empirically the best single predictor of how well CSIF tracks yield in a "
+    "district — among districts of equal cropping intensity, the largest third "
+    "still out-correlates the smallest third by 0.26–0.44. Intensity governs "
+    "pixel *mixing*; absolute area governs pixel *count*, and a district can be "
+    "60% planted yet still fit inside one 0.5° pixel.\n\n"
     "**Top N% of districts — by cropping intensity**: mean area under the crop "
     "divided by district area. Always keeps exactly N% of districts. This is "
     "the measure the earlier India notebooks used "
@@ -535,13 +542,18 @@ def apply_relevance_filter(cc: str, crop: str, ids: list[str],
     if rel.empty:
         return set(ids), "no overlap with mapped districts — filter not applied"
 
-    if mode in (FOCUS_INTENSITY, FOCUS_PROD_RANK):
+    if mode in (FOCUS_AREA, FOCUS_INTENSITY, FOCUS_PROD_RANK):
         # Count-based: always keeps exactly N% of the districts on this map.
         # Percentiles are recomputed within the mapped set, so the slider means
         # "top N% of the districts actually shown", not of the whole country.
-        col = ("cropping_fraction" if mode == FOCUS_INTENSITY else "mean_prod_mt")
+        col = {FOCUS_AREA: "mean_area_ha",
+               FOCUS_INTENSITY: "cropping_fraction",
+               FOCUS_PROD_RANK: "mean_prod_mt"}[mode]
         keep = rel[rel[col].rank(pct=True) > (1 - pct / 100)]
-        if mode == FOCUS_INTENSITY:
+        if mode == FOCUS_AREA:
+            note = (f"top {pct}% of districts by crop area "
+                    f"(≥ {rel[col].quantile(1 - pct / 100):,.0f} ha)")
+        elif mode == FOCUS_INTENSITY:
             note = (f"top {pct}% of districts by cropping intensity "
                     f"(crop area / district area ≥ "
                     f"{rel[col].quantile(1 - pct / 100):.1%})")
@@ -1034,7 +1046,8 @@ with tab_corr:
             with f_focus:
                 focus = st.selectbox(
                     "Focus on",
-                    [FOCUS_ALL, FOCUS_INTENSITY, FOCUS_PROD_RANK, FOCUS_PRODUCTION],
+                    [FOCUS_ALL, FOCUS_AREA, FOCUS_INTENSITY,
+                     FOCUS_PROD_RANK, FOCUS_PRODUCTION],
                     key="corr_focus", help=FOCUS_HELP,
                 )
             with f_pct:
