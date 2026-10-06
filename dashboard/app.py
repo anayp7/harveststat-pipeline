@@ -120,6 +120,25 @@ RESEARCHED_CALENDAR_HELP = (
 )
 
 
+FOCUS_ALL       = "All districts"
+FOCUS_INTENSITY = "Top % by cropping intensity"
+FOCUS_PRODUCTION = "Districts covering % of production"
+
+FOCUS_HELP = (
+    "Narrow the map to the districts that matter for this crop.\n\n"
+    "**Cropping intensity** — mean area under the crop divided by district "
+    "area, keeping the top N%. This is the measure the earlier India notebooks "
+    "used (\"Top 50% Cropping Intensity\").\n\n"
+    "**Share of production** — ranks districts by mean production and keeps the "
+    "fewest that together make up N% of the national total. Often far fewer "
+    "than half the districts.\n\n"
+    "This is more than navigation: a district only marginally planted to the "
+    "crop has its 0.5° CSIF pixel dominated by other vegetation, so filtering "
+    "to crop-dominant districts tests whether a weak national correlation is "
+    "really a pixel-mixing artifact. Excluded districts are dimmed, not "
+    "dropped, and the summary statistics recompute on what's left."
+)
+
 CLEANED_HELP = (
     "**Full**: every reported year, no exclusions.\n\n"
     "**Cleaned**: removes data flagged by the QA/QC checks before correlating — "
@@ -440,6 +459,93 @@ def load_corr(cc: str) -> pd.DataFrame:
 
 
 @st.cache_data
+def load_crop_relevance(cc: str) -> pd.DataFrame:
+    """
+    Per (crop, district), how important that district is for that crop.
+
+    Two measures, because "notable producer" has two defensible readings:
+
+    `cropping_fraction` -- mean area under the crop / total district area.
+        How much of the district is given over to this crop. This is the metric
+        the earlier India notebooks used (code/top50_usage.py, "Top 50%
+        Cropping Intensity"), including its clip at 1.0; reported area can
+        exceed polygon area where a district multi-crops the same land.
+
+    `cum_prod_share` -- districts ranked by mean production, cumulative share
+        of the national total. Picks out the few districts that actually grow
+        most of the crop, which may be far fewer than half of them.
+
+    The first is also an analytical control, not just navigation: at 0.5 deg a
+    district only marginally planted to the crop has its CSIF dominated by
+    other vegetation, so the correlation there is expected to be weaker.
+    """
+    ypath = PROC_DIR / f"annual_yield_{cc.lower()}.csv"
+    if not ypath.exists():
+        return pd.DataFrame()
+
+    y = pd.read_csv(ypath, usecols=["stable_id", "crop", "year",
+                                    "production_mt", "area_ha"])
+    agg = (y.groupby(["stable_id", "crop"])
+             .agg(mean_area_ha=("area_ha", "mean"),
+                  mean_prod_mt=("production_mt", "mean"))
+             .reset_index())
+
+    g = load_boundary(cc)[["stable_id", "geometry"]].copy()
+    # Equal-area projection before measuring, matching the earlier notebooks.
+    g["district_ha"] = g.to_crs(6933).area / 1e4
+    agg = agg.merge(g[["stable_id", "district_ha"]], on="stable_id", how="left")
+
+    agg["cropping_fraction"] = (
+        (agg["mean_area_ha"] / agg["district_ha"]).clip(upper=1.0)
+    )
+
+    out = []
+    for crop, sub in agg.groupby("crop"):
+        sub = sub.sort_values("mean_prod_mt", ascending=False).copy()
+        total = sub["mean_prod_mt"].sum()
+        sub["prod_share"] = sub["mean_prod_mt"] / total if total else 0.0
+        sub["cum_prod_share"] = sub["prod_share"].cumsum()
+        # Percentile of this district's intensity within the crop (1.0 = most intense)
+        sub["intensity_pct"] = sub["cropping_fraction"].rank(pct=True)
+        out.append(sub)
+    return pd.concat(out, ignore_index=True) if out else pd.DataFrame()
+
+
+def apply_relevance_filter(cc: str, crop: str, ids: list[str],
+                           mode: str, pct: int) -> tuple[set, str]:
+    """Return (kept stable_ids, description). Empty set means 'no filter'."""
+    if mode == FOCUS_ALL:
+        return set(ids), ""
+
+    rel = load_crop_relevance(cc)
+    rel = rel[rel["crop"] == crop] if not rel.empty else rel
+    if rel.empty:
+        return set(ids), "no production data for this crop — filter not applied"
+
+    rel = rel[rel["stable_id"].isin(ids)]
+    if rel.empty:
+        return set(ids), "no overlap with mapped districts — filter not applied"
+
+    if mode == FOCUS_INTENSITY:
+        # Recompute the percentile within the mapped districts so the slider
+        # means "top N% of the districts actually on this map".
+        keep = rel[rel["cropping_fraction"].rank(pct=True) > (1 - pct / 100)]
+        note = (f"top {pct}% by cropping intensity "
+                f"(crop area / district area ≥ "
+                f"{rel['cropping_fraction'].quantile(1 - pct / 100):.1%})")
+    else:
+        sub = rel.sort_values("mean_prod_mt", ascending=False).copy()
+        total = sub["mean_prod_mt"].sum()
+        sub["cum"] = sub["mean_prod_mt"].cumsum() / total if total else 0.0
+        # Include the district that crosses the threshold.
+        n = int((sub["cum"] < pct / 100).sum()) + 1
+        keep = sub.head(min(n, len(sub)))
+        note = (f"{len(keep)} district(s) covering {pct}% of national production")
+
+    return set(keep["stable_id"]), note
+
+
+@st.cache_data
 def load_qaqc_table(cc: str, name: str) -> pd.DataFrame:
     path = PROC_DIR / f"{name}_{cc.lower()}.csv"
     if not path.exists():
@@ -694,7 +800,8 @@ def show_table(df: pd.DataFrame, **kwargs):
 def choropleth(cc: str, df: pd.DataFrame, color_col: str, hover_cols: list[str],
                colorscale: str = "RdBu_r", symmetric: bool = True, title: str = "",
                colorbar_title: str = "", sig_ids: list[str] | None = None,
-               sig_label: str = "p < 0.05", select_key: str | None = None):
+               sig_label: str = "p < 0.05", select_key: str | None = None,
+               dimmed_ids: list[str] | None = None, dimmed_label: str = ""):
     """
     Three stacked layers:
       1. every district in the country, flat grey -- keeps the map framed on the
@@ -702,7 +809,11 @@ def choropleth(cc: str, df: pd.DataFrame, color_col: str, hover_cols: list[str],
          so the reader isn't silently zoomed into a sub-region. Carries no data
          and never enters any statistic.
       2. the districts that actually have a value, on the colour scale.
-      3. (optional) significant districts, transparent fill + heavy black
+      3. (optional) districts excluded by a relevance filter, drawn in a
+         mid grey so they read as "has data, set aside" -- distinct from the
+         paler "no data" base. Mirrors the bottom-50% treatment in the earlier
+         India figures, which greyed rather than dropped them.
+      4. (optional) significant districts, transparent fill + heavy black
          outline, matching the emphasis used in the matplotlib figures.
     """
     geojson = load_boundary_geojson(cc)
@@ -713,6 +824,16 @@ def choropleth(cc: str, df: pd.DataFrame, color_col: str, hover_cols: list[str],
     if data.empty:
         st.warning("No data available for this selection.")
         return
+
+    # Split off filtered-out districts before the colour scale is computed, so
+    # the scale is set by the districts actually under study.
+    dimmed = pd.DataFrame()
+    if dimmed_ids:
+        mask = data["stable_id"].isin(dimmed_ids)
+        dimmed, data = data[mask].copy(), data[~mask].copy()
+        if data.empty:
+            st.warning("The relevance filter removed every district with data.")
+            return
 
     vals = data[color_col]
     if symmetric:
@@ -733,6 +854,20 @@ def choropleth(cc: str, df: pd.DataFrame, color_col: str, hover_cols: list[str],
         marker_line_color="white", marker_line_width=0.5,
         hovertemplate="<b>%{location}</b><br>not in this crop/season<extra></extra>",
     ))
+
+    # Layer 1b -- districts set aside by the relevance filter. Mid grey, so it
+    # reads as distinct from the paler "no data at all" base beneath it.
+    if not dimmed.empty:
+        fig.add_trace(go.Choropleth(
+            geojson=geojson, locations=dimmed["stable_id"],
+            featureidkey="properties.stable_id",
+            z=[0] * len(dimmed),
+            colorscale=[[0, "#b9b9b9"], [1, "#b9b9b9"]],
+            showscale=False,
+            marker_line_color="white", marker_line_width=0.5,
+            text=dimmed.apply(lambda r: _hover_text(r, hover_cols), axis=1),
+            hovertemplate="%{text}<br><i>excluded by relevance filter</i><extra></extra>",
+        ))
 
     # Layer 2 -- districts with values
     fig.add_trace(go.Choropleth(
@@ -779,6 +914,10 @@ def choropleth(cc: str, df: pd.DataFrame, color_col: str, hover_cols: list[str],
 
     caption = "Districts in **light grey** have no data for this selection and " \
               "are excluded from all statistics above."
+    if dimmed_ids and not dimmed.empty:
+        caption = (f"Districts in **mid grey** have data but fall outside "
+                   f"{dimmed_label or 'the relevance filter'}; they are excluded "
+                   f"from the statistics above. " + caption)
     if sig_ids:
         caption = (f"Districts outlined in **black** are significant at {sig_label}. "
                    + caption)
@@ -875,15 +1014,59 @@ with tab_corr:
         if filtered.empty:
             st.warning("No data for this combination.")
         else:
+            f_focus, f_pct = st.columns([2, 2])
+            with f_focus:
+                focus = st.selectbox(
+                    "Focus on", [FOCUS_ALL, FOCUS_INTENSITY, FOCUS_PRODUCTION],
+                    key="corr_focus", help=FOCUS_HELP,
+                )
+            with f_pct:
+                pct = st.slider(
+                    "Threshold (%)", min_value=10, max_value=90, value=50, step=5,
+                    key="corr_focus_pct",
+                    disabled=(focus == FOCUS_ALL),
+                    help="Top N% of districts by intensity, or the fewest "
+                         "districts covering N% of national production.",
+                )
+
+            unfiltered = filtered
+            keep_ids, focus_note = apply_relevance_filter(
+                cc, crop, filtered["stable_id"].tolist(), focus, pct
+            )
+            dimmed_ids = [] if focus == FOCUS_ALL else \
+                sorted(set(filtered["stable_id"]) - keep_ids)
+            filtered = filtered[filtered["stable_id"].isin(keep_ids)].copy()
+
+            if filtered.empty:
+                st.warning("The relevance filter removed every district. "
+                           "Loosen the threshold.")
+                st.stop()
+            if focus != FOCUS_ALL and focus_note:
+                st.caption(f"Showing **{focus_note}** — "
+                           f"{len(filtered)} of {len(unfiltered)} districts.")
+
             is_sig  = filtered["p_value"] < 0.05
             n_sig   = int(is_sig.sum())
             n_pos   = int((is_sig & (filtered["r"] > 0)).sum())
             n_neg   = int((is_sig & (filtered["r"] < 0)).sum())
 
+            # When a filter is active, show how the statistic moved relative to
+            # all districts -- that shift is the informative part.
+            d_mean = (filtered["r"].mean() - unfiltered["r"].mean()
+                      if focus != FOCUS_ALL else None)
+            d_med  = (filtered["r"].median() - unfiltered["r"].median()
+                      if focus != FOCUS_ALL else None)
+
             m1, m2, m3, m4 = st.columns(4)
-            m1.metric("Districts", len(filtered))
-            m2.metric("Mean r", f"{filtered['r'].mean():+.3f}")
-            m3.metric("Median r", f"{filtered['r'].median():+.3f}")
+            m1.metric("Districts", len(filtered),
+                      delta=(f"of {len(unfiltered)}" if focus != FOCUS_ALL else None),
+                      delta_color="off")
+            m2.metric("Mean r", f"{filtered['r'].mean():+.3f}",
+                      delta=(f"{d_mean:+.3f} vs all" if d_mean is not None else None),
+                      delta_color="off")
+            m3.metric("Median r", f"{filtered['r'].median():+.3f}",
+                      delta=(f"{d_med:+.3f} vs all" if d_med is not None else None),
+                      delta_color="off")
             m4.metric(
                 "Significant (p<0.05)", f"{n_sig}/{len(filtered)}",
                 delta=(f"{n_pos} positive · {n_neg} negative" if n_sig else None),
@@ -893,12 +1076,16 @@ with tab_corr:
                      "would collapse the two.",
             )
 
+            # Pass the unfiltered frame: the map still draws the excluded
+            # districts (dimmed), it just leaves them out of the colour scale
+            # and the statistics. choropleth() does that split via dimmed_ids.
             event = choropleth(
-                cc, filtered, color_col="r",
+                cc, unfiltered, color_col="r",
                 hover_cols=["r", "p_value", "n_years"],
                 colorscale="RdBu_r", symmetric=True,
                 colorbar_title="Pearson r",
                 sig_ids=filtered.loc[is_sig, "stable_id"].tolist(),
+                dimmed_ids=dimmed_ids, dimmed_label=focus_note,
                 title=f"{get_country(cc)['name']} — {crop} — {season_label} ({scenario}): "
                       f"detrended yield ~ CSIF, Pearson r",
                 select_key=f"corrmap_{cc}_{crop}_{season_label}_{scenario}",
@@ -908,11 +1095,20 @@ with tab_corr:
             if clicked:
                 st.divider()
                 st.subheader(f"{clicked} — {crop} — {season_label}")
-                match = filtered[filtered["stable_id"] == clicked]
+                # Look it up in the unfiltered set: a district dimmed by the
+                # relevance filter still has a full series worth showing, it is
+                # simply outside the current focus.
+                match = unfiltered[unfiltered["stable_id"] == clicked]
+                if not match.empty and clicked in set(dimmed_ids):
+                    st.caption(
+                        "This district is outside the current focus filter, so it "
+                        "is not in the statistics above — its series is shown anyway."
+                    )
                 if match.empty:
                     st.info(
                         f"{clicked} has no {crop} data for this season/scenario "
-                        "(it's one of the grey districts), so there's no series to plot."
+                        "(it's one of the pale grey districts), so there's no "
+                        "series to plot."
                     )
                 else:
                     row = match.iloc[0]
